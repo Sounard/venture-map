@@ -1,8 +1,8 @@
 import { defineConfig } from "vite";
 
-// Served from the apex custom domain (sounard.net), so assets live at the root.
+// Served at https://cedric.sounard.net/venture-map/ — assets live under that path.
 export default defineConfig({
-  base: "/",
+  base: "/venture-map/",
   build: {
     target: "es2022",
     chunkSizeWarningLimit: 1600, // three.js is large; this is expected, not a problem

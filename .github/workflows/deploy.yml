@@ -26,11 +26,19 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npm run build
+      - run: npm run build # base = /venture-map/, outputs to dist/
+      # Publish the app under /venture-map/ on the custom domain.
+      # Site root holds the CNAME (custom domain) + a redirect to the app.
+      - name: Assemble Pages site
+        run: |
+          mkdir -p site/venture-map
+          cp -r dist/* site/venture-map/
+          echo "cedric.sounard.net" > site/CNAME
+          printf '<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=/venture-map/"><title>Redirecting…</title><a href="/venture-map/">/venture-map/</a>' > site/index.html
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: site
 
   deploy:
     needs: build
