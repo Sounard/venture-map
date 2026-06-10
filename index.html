@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cédric Sounard — Venture Map</title>
+    <meta
+      name="description"
+      content="An interactive knowledge graph of Cédric Sounard's ventures and how they connect."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="graph"></div>
+
+    <header id="masthead">
+      <div class="brand">
+        <span class="brand-name">Cédric Sounard</span>
+        <span class="brand-tag">Your Most Extroverted Geek — venture map</span>
+      </div>
+      <button id="reset-view" title="Reset camera">recenter</button>
+    </header>
+
+    <aside id="panel" class="hidden" aria-live="polite">
+      <button id="panel-close" aria-label="Close">×</button>
+      <div id="panel-body"></div>
+    </aside>
+
+    <div id="legend"></div>
+
+    <footer id="hint">
+      <span>drag to orbit · scroll to zoom · click a node</span>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
