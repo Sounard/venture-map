@@ -5,3 +5,6 @@ dist
 
 # local machine settings — not for public repo
 .claude/settings.local.json
+
+# local standalone gh binary
+.tools/
