@@ -264,16 +264,9 @@ export const nodes: GraphNode[] = [
   { id: "contentors", label: "Contentors", type: "partner", kicker: "Commons Hub community" },
   { id: "open-source-village", label: "Open Source Village", type: "partner", kicker: "Commons Hub community" },
 
-  // ── Clients ─────────────────────────────────────────────────────────────
-  { id: "ku-leuven", label: "KU Leuven", type: "client", kicker: "Client — universities" },
-  {
-    id: "eu-institutions",
-    label: "EU institutions",
-    type: "client",
-    kicker: "Client — institutional events",
-    blurb: "Brussels is democracy's HQ — EU institutional events are a core Seven Events segment.",
-  },
+  // ── Seven Events clients & community ────────────────────────────────────
   { id: "vcs-corporates", label: "VCs & corporates", type: "client", kicker: "Clients — forums & summits" },
+  { id: "agoria", label: "Agoria", type: "partner", kicker: "Community member" },
 
   // ── The community at the centre of it all ───────────────────────────────
   {
@@ -310,9 +303,9 @@ export const links: GraphLink[] = [
   // Seven Events
   { source: "seven-events", target: "hackathons", kind: "flagship", label: "Flagship format" },
   { source: "seven-events", target: "ai-defence-summit", kind: "event", label: "Chief of Staff: Cédric" },
-  { source: "seven-events", target: "ku-leuven", kind: "client" },
-  { source: "seven-events", target: "eu-institutions", kind: "client" },
   { source: "seven-events", target: "vcs-corporates", kind: "client" },
+  { source: "seven-events", target: "stripe", kind: "community", label: "Community member" },
+  { source: "seven-events", target: "agoria", kind: "community", label: "Community member" },
 
   // Hackathons → the editions
   { source: "hackathons", target: "hk-stripe", kind: "event" },

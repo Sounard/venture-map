@@ -32,6 +32,24 @@ body {
     var(--bg);
 }
 
+/* ── Node labels (DOM overlay, never blooms) ──────────────── */
+.node-label {
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  /* crisp 1px dark contour + slight drop — readable, no glow */
+  text-shadow:
+    -1px -1px 0 #05060a,
+    1px -1px 0 #05060a,
+    -1px 1px 0 #05060a,
+    1px 1px 0 #05060a,
+    0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
 /* ── Masthead ─────────────────────────────────────────────── */
 #masthead {
   position: fixed;

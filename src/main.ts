@@ -2,6 +2,7 @@ import "./style.css";
 import ForceGraph3D from "3d-force-graph";
 import * as THREE from "three";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
+import { CSS2DRenderer, CSS2DObject } from "three/examples/jsm/renderers/CSS2DRenderer.js";
 import {
   nodes,
   links,
@@ -98,45 +99,14 @@ function geometryFor(type: NodeType, r: number): THREE.BufferGeometry {
   }
 }
 
-// A floating text label as a canvas sprite — light contour for readability.
-function makeLabel(text: string, color: string): THREE.Sprite {
-  const font = 34;
-  const pad = 10;
-  const measure = document.createElement("canvas").getContext("2d")!;
-  const fontSpec = `600 ${font}px Inter, "Space Grotesk", system-ui, sans-serif`;
-  measure.font = fontSpec;
-  const w = Math.ceil(measure.measureText(text).width) + pad * 2;
-  const h = font + pad * 2;
-
-  const canvas = document.createElement("canvas");
-  const dpr = 2;
-  canvas.width = w * dpr;
-  canvas.height = h * dpr;
-  const ctx = canvas.getContext("2d")!;
-  ctx.scale(dpr, dpr);
-  ctx.font = fontSpec;
-  ctx.textBaseline = "middle";
-  ctx.lineJoin = "round";
-
-  // Soft dark separation, then a light contour, then the coloured fill on top.
-  ctx.shadowColor = "rgba(0,0,0,0.92)";
-  ctx.shadowBlur = 7;
-  ctx.shadowOffsetY = 1;
-  ctx.lineWidth = 6;
-  ctx.strokeStyle = "rgba(247,249,255,0.95)";
-  ctx.strokeText(text, pad, h / 2);
-  ctx.shadowBlur = 0;
-  ctx.shadowOffsetY = 0;
-  ctx.fillStyle = color;
-  ctx.fillText(text, pad, h / 2);
-
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.anisotropy = 4;
-  const material = new THREE.SpriteMaterial({ map: texture, transparent: true, depthWrite: false });
-  const sprite = new THREE.Sprite(material);
-  const scale = 0.13;
-  sprite.scale.set(w * scale, h * scale, 1);
-  return sprite;
+// Labels are DOM elements (CSS2D), rendered on top of the WebGL canvas AFTER
+// the bloom pass — so they stay crisp and never pick up the node glow.
+function makeLabel(text: string, color: string): CSS2DObject {
+  const div = document.createElement("div");
+  div.className = "node-label";
+  div.textContent = text;
+  div.style.color = color;
+  return new CSS2DObject(div);
 }
 
 // Eyebrow text: pillar mix for activities, type label for everything else.
@@ -175,7 +145,10 @@ const RELATION_VERB: Record<GraphLink["kind"], string> = {
 // ── Build the graph ─────────────────────────────────────────────────────────
 const el = document.getElementById("graph")!;
 
-const Graph = new ForceGraph3D(el)
+// DOM-based labels (immune to the WebGL bloom).
+const labelRenderer = new CSS2DRenderer();
+
+const Graph = new ForceGraph3D(el, { extraRenderers: [labelRenderer as any] })
   .backgroundColor("#05060a")
   .showNavInfo(false)
   .nodeRelSize(1)
@@ -204,8 +177,8 @@ const Graph = new ForceGraph3D(el)
     group.add(mesh);
 
     if (LABEL_TYPES.has(n.type)) {
-      const label = makeLabel(n.label, lighten(color, 0.18));
-      label.position.set(0, r + 6, 0);
+      const label = makeLabel(n.label, lighten(color, 0.4));
+      label.position.set(0, r + 7, 0);
       group.add(label);
     }
     return group;
@@ -362,5 +335,6 @@ document.getElementById("reset-view")!.addEventListener("click", () => {
 window.addEventListener("resize", () => {
   Graph.width(window.innerWidth).height(window.innerHeight);
   bloom.setSize(window.innerWidth, window.innerHeight);
+  labelRenderer.setSize(window.innerWidth, window.innerHeight);
 });
 Graph.width(window.innerWidth).height(window.innerHeight);
