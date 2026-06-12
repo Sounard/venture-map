@@ -5,28 +5,75 @@ import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPa
 import {
   nodes,
   links,
-  GROUP_COLORS,
-  GROUP_LABELS,
+  PILLAR_COLORS,
+  PILLAR_LABELS,
+  NEUTRAL_COLOR,
+  type Pillar,
   type GraphNode,
   type GraphLink,
-  type Group,
   type NodeType,
 } from "./data.ts";
 
-// ── Visual scale per node type ──────────────────────────────────────────────
+const PILLARS: Pillar[] = ["education", "events", "tech"];
+
+// ── Colour: blend the three core activities; neutral for orgs/people ────────
+function resolveColor(n: GraphNode): string {
+  if (!n.pillars) return NEUTRAL_COLOR;
+  let r = 0,
+    g = 0,
+    b = 0,
+    tot = 0;
+  for (const k of PILLARS) {
+    const w = n.pillars[k] ?? 0;
+    if (w <= 0) continue;
+    const c = new THREE.Color(PILLAR_COLORS[k]);
+    r += c.r * w;
+    g += c.g * w;
+    b += c.b * w;
+    tot += w;
+  }
+  if (tot === 0) return NEUTRAL_COLOR;
+  // Blending desaturates toward grey — push saturation back up so the
+  // Education/Events/Tech hues stay legible even when a node mixes all three.
+  const c = new THREE.Color(r / tot, g / tot, b / tot);
+  const hsl = { h: 0, s: 0, l: 0 };
+  c.getHSL(hsl);
+  c.setHSL(hsl.h, Math.min(1, hsl.s * 1.45), Math.min(0.62, hsl.l));
+  return `#${c.getHexString()}`;
+}
+
+function lighten(hex: string, amt: number): string {
+  const c = new THREE.Color(hex);
+  c.lerp(new THREE.Color("#ffffff"), amt);
+  return `#${c.getHexString()}`;
+}
+
+// ── Visual scale + geometry per node type ───────────────────────────────────
 const SIZE: Record<NodeType, number> = {
   person: 11,
   venture: 7.5,
   thread: 6,
-  format: 5,
-  client: 3.4,
-  sponsor: 3.4,
-  partner: 3.6,
+  format: 5.5,
+  event: 4,
+  partner: 3.2,
+  client: 3.2,
   initiative: 3.6,
-  audience: 4.2,
+  audience: 5,
 };
 
-const LABEL_TYPES: Set<NodeType> = new Set(["person", "venture", "thread", "format", "audience"]);
+const LABEL_TYPES: Set<NodeType> = new Set(["person", "venture", "thread", "format", "event", "audience", "initiative"]);
+
+const TYPE_LABEL: Record<NodeType, string> = {
+  person: "",
+  venture: "Venture",
+  thread: "Thread",
+  format: "Programme",
+  event: "Hackathon",
+  partner: "Partner",
+  client: "Client",
+  initiative: "Civic track record",
+  audience: "Community",
+};
 
 function geometryFor(type: NodeType, r: number): THREE.BufferGeometry {
   switch (type) {
@@ -38,25 +85,26 @@ function geometryFor(type: NodeType, r: number): THREE.BufferGeometry {
       return new THREE.TorusGeometry(r * 0.8, r * 0.32, 16, 40);
     case "format":
       return new THREE.OctahedronGeometry(r, 0);
+    case "event":
+      return new THREE.TetrahedronGeometry(r * 1.25, 0);
     case "partner":
       return new THREE.DodecahedronGeometry(r, 0);
-    case "sponsor":
-      return new THREE.BoxGeometry(r * 1.5, r * 1.5, r * 1.5);
     case "client":
       return new THREE.ConeGeometry(r, r * 1.8, 5);
     case "initiative":
       return new THREE.TetrahedronGeometry(r * 1.3, 0);
     case "audience":
-      return new THREE.SphereGeometry(r, 24, 24);
+      return new THREE.SphereGeometry(r, 28, 28);
   }
 }
 
-// A floating text label as a canvas sprite.
+// A floating text label as a canvas sprite — light contour for readability.
 function makeLabel(text: string, color: string): THREE.Sprite {
-  const pad = 8;
-  const font = 26;
+  const font = 34;
+  const pad = 10;
   const measure = document.createElement("canvas").getContext("2d")!;
-  measure.font = `600 ${font}px "Space Grotesk", sans-serif`;
+  const fontSpec = `600 ${font}px Inter, "Space Grotesk", system-ui, sans-serif`;
+  measure.font = fontSpec;
   const w = Math.ceil(measure.measureText(text).width) + pad * 2;
   const h = font + pad * 2;
 
@@ -66,11 +114,19 @@ function makeLabel(text: string, color: string): THREE.Sprite {
   canvas.height = h * dpr;
   const ctx = canvas.getContext("2d")!;
   ctx.scale(dpr, dpr);
-  ctx.font = `600 ${font}px "Space Grotesk", sans-serif`;
+  ctx.font = fontSpec;
   ctx.textBaseline = "middle";
-  ctx.fillStyle = "rgba(0,0,0,0.55)";
-  ctx.shadowColor = "rgba(0,0,0,0.9)";
-  ctx.shadowBlur = 6;
+  ctx.lineJoin = "round";
+
+  // Soft dark separation, then a light contour, then the coloured fill on top.
+  ctx.shadowColor = "rgba(0,0,0,0.92)";
+  ctx.shadowBlur = 7;
+  ctx.shadowOffsetY = 1;
+  ctx.lineWidth = 6;
+  ctx.strokeStyle = "rgba(247,249,255,0.95)";
+  ctx.strokeText(text, pad, h / 2);
+  ctx.shadowBlur = 0;
+  ctx.shadowOffsetY = 0;
   ctx.fillStyle = color;
   ctx.fillText(text, pad, h / 2);
 
@@ -78,18 +134,23 @@ function makeLabel(text: string, color: string): THREE.Sprite {
   texture.anisotropy = 4;
   const material = new THREE.SpriteMaterial({ map: texture, transparent: true, depthWrite: false });
   const sprite = new THREE.Sprite(material);
-  const scale = 0.16;
+  const scale = 0.13;
   sprite.scale.set(w * scale, h * scale, 1);
   return sprite;
 }
 
-function lighten(hex: string, amt: number): string {
-  const c = new THREE.Color(hex);
-  c.lerp(new THREE.Color("#ffffff"), amt);
-  return `#${c.getHexString()}`;
+// Eyebrow text: pillar mix for activities, type label for everything else.
+function eyebrowText(n: GraphNode): string {
+  if (n.pillars) {
+    const tags = PILLARS.filter((k) => (n.pillars![k] ?? 0) >= 0.45)
+      .sort((a, b) => (n.pillars![b] ?? 0) - (n.pillars![a] ?? 0))
+      .map((k) => PILLAR_LABELS[k]);
+    if (tags.length) return tags.join(" · ");
+  }
+  return TYPE_LABEL[n.type] || "";
 }
 
-// ── Adjacency (for the panel's connection list + hover highlight) ───────────
+// ── Adjacency (panel's connection list) ─────────────────────────────────────
 const byId = new Map(nodes.map((n) => [n.id, n]));
 const neighbors = new Map<string, Array<{ node: GraphNode; kind: string }>>();
 nodes.forEach((n) => neighbors.set(n.id, []));
@@ -101,14 +162,14 @@ for (const l of links) {
 const RELATION_VERB: Record<GraphLink["kind"], string> = {
   role: "role",
   flagship: "flagship",
+  event: "edition",
   venue: "venue",
   pipeline: "pipeline",
   partner: "partner",
-  sponsor: "sponsor",
   client: "client",
   "track-record": "track record",
+  community: "community",
   audience: "audience",
-  amplifies: "amplifies",
 };
 
 // ── Build the graph ─────────────────────────────────────────────────────────
@@ -124,8 +185,8 @@ const Graph = new ForceGraph3D(el)
   })
   .nodeThreeObject((node: any) => {
     const n = node as GraphNode;
-    const color = GROUP_COLORS[n.group];
-    const r = SIZE[n.type];
+    const color = resolveColor(n);
+    const r = SIZE[n.type] * (n.prominence ?? 1);
     const group = new THREE.Group();
 
     const mesh = new THREE.Mesh(
@@ -133,17 +194,17 @@ const Graph = new ForceGraph3D(el)
       new THREE.MeshStandardMaterial({
         color,
         emissive: new THREE.Color(color),
-        emissiveIntensity: n.type === "person" ? 1.1 : 0.75,
+        emissiveIntensity: n.type === "person" ? 0.85 : n.pillars ? 0.6 : 0.4,
         roughness: 0.35,
         metalness: 0.1,
-        transparent: n.type === "audience",
-        opacity: n.type === "audience" ? 0.78 : 1,
+        transparent: !n.pillars,
+        opacity: n.pillars ? 1 : 0.82,
       }),
     );
     group.add(mesh);
 
     if (LABEL_TYPES.has(n.type)) {
-      const label = makeLabel(n.label, lighten(color, 0.55));
+      const label = makeLabel(n.label, lighten(color, 0.18));
       label.position.set(0, r + 6, 0);
       group.add(label);
     }
@@ -151,41 +212,41 @@ const Graph = new ForceGraph3D(el)
   })
   .nodeLabel((node: any) => {
     const n = node as GraphNode;
-    return `<div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#cfd4e3">${n.label}${
+    return `<div style="font-family:Inter,sans-serif;font-size:12px;color:#e9ecf5">${n.label}${
       n.kicker ? ` · <span style="color:#8b93a7">${n.kicker}</span>` : ""
     }</div>`;
   })
   .linkColor((l: any) => {
     const src = typeof l.source === "object" ? l.source : byId.get(l.source);
-    return lighten(GROUP_COLORS[(src as GraphNode).group], 0.1);
+    return lighten(resolveColor(src as GraphNode), 0.1);
   })
-  .linkOpacity(0.28)
+  .linkOpacity(0.26)
   .linkWidth((l: any) => (l.kind === "role" || l.kind === "flagship" || l.kind === "pipeline" ? 0.7 : 0.35))
-  .linkDirectionalParticles((l: any) => (l.kind === "pipeline" || l.kind === "venue" ? 3 : 1))
+  .linkDirectionalParticles((l: any) =>
+    l.kind === "pipeline" || l.kind === "community" || l.kind === "venue" ? 3 : 1,
+  )
   .linkDirectionalParticleWidth(1.6)
   .linkDirectionalParticleSpeed(0.006)
   .linkDirectionalParticleColor((l: any) => {
     const src = typeof l.source === "object" ? l.source : byId.get(l.source);
-    return lighten(GROUP_COLORS[(src as GraphNode).group], 0.35);
+    return lighten(resolveColor(src as GraphNode), 0.35);
   })
   .onNodeClick((node: any) => focusNode(node as GraphNode))
   .onBackgroundClick(() => closePanel());
 
 // Force tuning — give the hub room to breathe.
-Graph.d3Force("charge")?.strength(-190);
+Graph.d3Force("charge")?.strength(-210);
 const linkForce = Graph.d3Force("link") as any;
 linkForce?.distance((l: any) => {
-  if (l.kind === "role") return 95;
-  if (l.kind === "amplifies") return 130;
+  if (l.kind === "role") return 90;
+  if (l.kind === "client") return 45;
   return 55;
 });
 
 // Bloom for the sci-fi glow.
-const bloom = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.1, 0.7, 0.05);
+const bloom = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.7, 0.6, 0.16);
 Graph.postProcessingComposer().addPass(bloom);
-
-// Gentle ambient + the renderer's default lights keep emissive materials readable.
-Graph.scene().add(new THREE.AmbientLight(0xffffff, 0.35));
+Graph.scene().add(new THREE.AmbientLight(0xffffff, 0.4));
 
 // Slow auto-rotate until the user interacts.
 let autoRotate = true;
@@ -194,21 +255,20 @@ controls.addEventListener("start", () => (autoRotate = false));
 (function spin() {
   if (autoRotate) {
     const t = Date.now() * 0.00006;
-    const dist = 320;
+    const dist = 360;
     Graph.cameraPosition({ x: dist * Math.sin(t), z: dist * Math.cos(t) });
   }
   requestAnimationFrame(spin);
 })();
 
-// Initial framing.
-setTimeout(() => Graph.zoomToFit(800, 80), 600);
+setTimeout(() => Graph.zoomToFit(800, 90), 600);
 
 // ── Camera focus on a node ──────────────────────────────────────────────────
 function focusNode(n: GraphNode) {
   autoRotate = false;
   const node = (Graph.graphData().nodes as any[]).find((x) => x.id === n.id);
   if (!node) return;
-  const dist = 90;
+  const dist = 100;
   const ratio = 1 + dist / Math.hypot(node.x || 1, node.y || 1, node.z || 1);
   Graph.cameraPosition(
     { x: (node.x || 0) * ratio, y: (node.y || 0) * ratio, z: (node.z || 0) * ratio },
@@ -228,12 +288,12 @@ function esc(s: string): string {
 }
 
 function openPanel(n: GraphNode) {
-  const color = GROUP_COLORS[n.group];
+  const color = resolveColor(n);
   const conns = (neighbors.get(n.id) || []).slice().sort((a, b) => a.node.label.localeCompare(b.node.label));
 
   panelBody.innerHTML = `
     <div class="p-eyebrow" style="color:${color}">
-      <span class="p-dot" style="background:${color}"></span>${esc(GROUP_LABELS[n.group])}
+      <span class="p-dot" style="background:${color}"></span>${esc(eyebrowText(n))}
     </div>
     <h1 class="p-title">${esc(n.label)}</h1>
     ${n.kicker ? `<p class="p-kicker">${esc(n.kicker)}</p>` : ""}
@@ -252,7 +312,7 @@ function openPanel(n: GraphNode) {
            <div class="p-links">${conns
              .map(
                (c) => `<button class="p-link" data-id="${c.node.id}">
-                 <span class="dot" style="background:${GROUP_COLORS[c.node.group]}"></span>
+                 <span class="dot" style="background:${resolveColor(c.node)}"></span>
                  ${esc(c.node.label)}
                  <span class="rel">${esc(RELATION_VERB[c.kind as GraphLink["kind"]] || c.kind)}</span>
                </button>`,
@@ -276,37 +336,29 @@ function closePanel() {
   panel.classList.add("hidden");
 }
 
-// ── Legend (also acts as a colour key per venture) ──────────────────────────
+// ── Legend — the three core activities (colour blends between them) ─────────
 const legend = document.getElementById("legend")!;
-const groupsInOrder: Group[] = ["person", "seven-events", "hrmano", "commons-hub", "civic", "content", "tech"];
 legend.innerHTML =
-  `<div class="legend-title">Ventures & threads</div>` +
-  groupsInOrder
-    .map((g) => {
-      const color = GROUP_COLORS[g];
-      const root = nodes.find((n) => n.group === g && (n.type === "venture" || n.type === "thread" || n.type === "person"));
-      return `<div class="legend-row" data-id="${root?.id ?? ""}" style="color:${color}">
-        <span class="legend-swatch" style="background:${color}"></span>
-        <span style="color:#cfd4e3">${esc(GROUP_LABELS[g])}</span>
-      </div>`;
-    })
-    .join("");
-
-legend.querySelectorAll<HTMLDivElement>(".legend-row").forEach((row) => {
-  row.addEventListener("click", () => {
-    const node = byId.get(row.dataset.id!);
-    if (node) focusNode(node);
-  });
-});
+  `<div class="legend-title">Core activities</div>` +
+  PILLARS.map(
+    (p) => `<div class="legend-row" style="color:${PILLAR_COLORS[p]}">
+      <span class="legend-swatch" style="background:${PILLAR_COLORS[p]}"></span>
+      <span style="color:#cfd4e3">${esc(PILLAR_LABELS[p])}</span>
+    </div>`,
+  ).join("") +
+  `<div class="legend-note">node colour blends the three</div>
+   <div class="legend-row" style="color:${NEUTRAL_COLOR}">
+     <span class="legend-swatch" style="background:${NEUTRAL_COLOR};box-shadow:none"></span>
+     <span style="color:#cfd4e3">Partners · people</span>
+   </div>`;
 
 // ── Controls ────────────────────────────────────────────────────────────────
 document.getElementById("reset-view")!.addEventListener("click", () => {
   closePanel();
   autoRotate = false;
-  Graph.zoomToFit(800, 80);
+  Graph.zoomToFit(800, 90);
 });
 
-// Keep the renderer + bloom sized to the window.
 window.addEventListener("resize", () => {
   Graph.width(window.innerWidth).height(window.innerHeight);
   bloom.setSize(window.innerWidth, window.innerHeight);
