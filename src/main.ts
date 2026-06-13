@@ -142,6 +142,15 @@ const RELATION_VERB: Record<GraphLink["kind"], string> = {
   audience: "audience",
 };
 
+// ── Hover-reveal links (e.g. Kids AI Coding's partner web) ──────────────────
+// Links carrying a `reveal` id stay hidden until that node is hovered, then
+// linger a couple of seconds so you can move onto a partner to read its name.
+let revealNode: string | null = null;
+function linkVisible(l: any): boolean {
+  const r = l.reveal as string | undefined;
+  return !r || r === revealNode;
+}
+
 // ── Build the graph ─────────────────────────────────────────────────────────
 const el = document.getElementById("graph")!;
 
@@ -176,7 +185,7 @@ const Graph = new ForceGraph3D(el, { extraRenderers: [labelRenderer as any] })
     );
     group.add(mesh);
 
-    if (LABEL_TYPES.has(n.type)) {
+    if (LABEL_TYPES.has(n.type) || n.showLabel) {
       const label = makeLabel(n.label, lighten(color, 0.4));
       label.position.set(0, r + 7, 0);
       group.add(label);
@@ -193,6 +202,7 @@ const Graph = new ForceGraph3D(el, { extraRenderers: [labelRenderer as any] })
     const src = typeof l.source === "object" ? l.source : byId.get(l.source);
     return lighten(resolveColor(src as GraphNode), 0.1);
   })
+  .linkVisibility((l: any) => linkVisible(l))
   .linkOpacity(0.26)
   .linkWidth((l: any) => (l.kind === "role" || l.kind === "flagship" || l.kind === "pipeline" ? 0.7 : 0.35))
   .linkDirectionalParticles((l: any) =>
@@ -214,6 +224,34 @@ linkForce?.distance((l: any) => {
   if (l.kind === "role") return 90;
   if (l.kind === "client") return 45;
   return 55;
+});
+
+// Reveal a node's hidden links on hover; linger so partners stay reachable.
+const revealMembers = new Set<string>(["hk-kids"]);
+links.forEach((l) => {
+  if (l.reveal === "hk-kids") revealMembers.add(l.target);
+});
+let hideTimer: number | undefined;
+function refreshLinks() {
+  Graph.linkVisibility((l: any) => linkVisible(l));
+}
+Graph.onNodeHover((node: any) => {
+  const id = node?.id ?? null;
+  if (id === "hk-kids") {
+    clearTimeout(hideTimer);
+    if (revealNode !== "hk-kids") {
+      revealNode = "hk-kids";
+      refreshLinks();
+    }
+  } else if (id && revealMembers.has(id)) {
+    clearTimeout(hideTimer); // keep the web up while inspecting a partner
+  } else if (revealNode) {
+    clearTimeout(hideTimer);
+    hideTimer = window.setTimeout(() => {
+      revealNode = null;
+      refreshLinks();
+    }, 2500);
+  }
 });
 
 // Bloom for the sci-fi glow.

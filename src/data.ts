@@ -52,6 +52,8 @@ export interface GraphNode {
   pillars?: PillarWeights;
   /** Size multiplier on top of the type's base size. */
   prominence?: number;
+  /** Force a permanent floating label even when the type wouldn't get one. */
+  showLabel?: boolean;
   kicker?: string;
   blurb?: string;
   facts?: string[];
@@ -75,6 +77,8 @@ export interface GraphLink {
   target: string;
   kind: LinkKind;
   label?: string;
+  /** If set, the link is hidden until the node with this id is hovered. */
+  reveal?: string;
 }
 
 export const nodes: GraphNode[] = [
@@ -260,9 +264,32 @@ export const nodes: GraphNode[] = [
   { id: "regens-unite", label: "Regens Unite", type: "partner", kicker: "Commons Hub community" },
   { id: "open-collective", label: "Open Collective", type: "partner", kicker: "Commons Hub community" },
   { id: "rebel-studio", label: "Rebel Studio", type: "partner", kicker: "Commons Hub community" },
-  { id: "founders-running-club", label: "Founders Running Club", type: "partner", kicker: "Commons Hub community" },
+  {
+    id: "founders-running-club",
+    label: "Founders Running Club",
+    type: "partner",
+    showLabel: true,
+    kicker: "Brussels chapter — cofounder",
+    blurb: "Founders Running Club, Brussels chapter — cofounded by Cédric. Where the founder community runs together.",
+  },
   { id: "contentors", label: "Contentors", type: "partner", kicker: "Commons Hub community" },
   { id: "open-source-village", label: "Open Source Village", type: "partner", kicker: "Commons Hub community" },
+
+  // ── Kids AI Coding partners (names on hover; links revealed on hover) ────
+  {
+    id: "north-star",
+    label: "North Star",
+    type: "partner",
+    kicker: "AI & Robotics community · Antwerp",
+    blurb: "AI and Robotics community in Antwerp. High drive — reach the stars.",
+  },
+  { id: "watbeta", label: "WATbeta", type: "partner", kicker: "In-kind partner · innovative location" },
+  { id: "wintercircus", label: "Wintercircus", type: "partner", kicker: "In-kind partner · innovative location" },
+  { id: "e6k", label: "E6K Charleroi", type: "partner", kicker: "In-kind partner · innovative location" },
+  { id: "grand-poste", label: "La Grand Poste Liège", type: "partner", kicker: "In-kind partner · innovative location" },
+  { id: "the-beacon", label: "The Beacon Antwerp", type: "partner", kicker: "In-kind partner · innovative location" },
+  { id: "young-engineers", label: "Young Engineers Liège", type: "partner", kicker: "Partner" },
+  { id: "nerdlab", label: "Nerdlab", type: "partner", kicker: "Partner" },
 
   // ── Seven Events clients & community ────────────────────────────────────
   { id: "vcs-corporates", label: "VCs & corporates", type: "client", kicker: "Clients — forums & summits" },
@@ -306,6 +333,7 @@ export const links: GraphLink[] = [
   { source: "seven-events", target: "vcs-corporates", kind: "client" },
   { source: "seven-events", target: "stripe", kind: "community", label: "Community member" },
   { source: "seven-events", target: "agoria", kind: "community", label: "Community member" },
+  { source: "agoria", target: "ai-defence-summit", kind: "partner", label: "Partner" },
 
   // Hackathons → the editions
   { source: "hackathons", target: "hk-stripe", kind: "event" },
@@ -322,11 +350,19 @@ export const links: GraphLink[] = [
   { source: "hk-stripe", target: "stripe", kind: "partner" },
   { source: "hk-stripe", target: "founder-community", kind: "community" },
 
-  // Kids AI Coding — Commons Hub + its partners
-  { source: "hk-kids", target: "commons-hub", kind: "venue" },
-  { source: "hk-kids", target: "lovable", kind: "partner" },
-  { source: "hk-kids", target: "rosebud", kind: "partner" },
-  { source: "hk-kids", target: "huggingface", kind: "partner" },
+  // Kids AI Coding — venue + partners, all hidden until the node is hovered
+  { source: "hk-kids", target: "commons-hub", kind: "venue", reveal: "hk-kids" },
+  { source: "hk-kids", target: "lovable", kind: "partner", reveal: "hk-kids" },
+  { source: "hk-kids", target: "rosebud", kind: "partner", reveal: "hk-kids" },
+  { source: "hk-kids", target: "huggingface", kind: "partner", reveal: "hk-kids" },
+  { source: "hk-kids", target: "north-star", kind: "partner", reveal: "hk-kids" },
+  { source: "hk-kids", target: "watbeta", kind: "partner", reveal: "hk-kids" },
+  { source: "hk-kids", target: "wintercircus", kind: "partner", reveal: "hk-kids" },
+  { source: "hk-kids", target: "e6k", kind: "partner", reveal: "hk-kids" },
+  { source: "hk-kids", target: "grand-poste", kind: "partner", reveal: "hk-kids" },
+  { source: "hk-kids", target: "the-beacon", kind: "partner", reveal: "hk-kids" },
+  { source: "hk-kids", target: "young-engineers", kind: "partner", reveal: "hk-kids" },
+  { source: "hk-kids", target: "nerdlab", kind: "partner", reveal: "hk-kids" },
 
   // Decentralised European Media — Commons Hub + civic
   { source: "hk-media", target: "commons-hub", kind: "venue" },
@@ -362,6 +398,7 @@ export const links: GraphLink[] = [
   { source: "commons-hub", target: "founders-running-club", kind: "partner" },
   { source: "commons-hub", target: "contentors", kind: "partner" },
   { source: "commons-hub", target: "open-source-village", kind: "partner" },
+  { source: "founders-running-club", target: "founder-community", kind: "community", label: "Where founders run" },
 
   // Civic track record
   { source: "civic", target: "assemblee-citoyenne", kind: "track-record" },
