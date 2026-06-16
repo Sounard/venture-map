@@ -67,6 +67,7 @@ export type LinkKind =
   | "venue" // hosted at a place
   | "pipeline" // feeds another venture
   | "partner" // partner / sponsor of
+  | "sponsor" // headline / main sponsor of
   | "client" // buys from
   | "track-record" // civic engagement evidence
   | "community" // ties into the founder community
@@ -254,6 +255,8 @@ export const nodes: GraphNode[] = [
   // ── Partners / sponsors (all one level) ─────────────────────────────────
   { id: "stripe", label: "Stripe", type: "partner", kicker: "Partner" },
   { id: "collibra", label: "Collibra", type: "partner", kicker: "Partner" },
+  { id: "bxl-ville", label: "BXL Ville · de Stad", type: "partner", kicker: "City of Brussels — main sponsor" },
+  { id: "sibelga", label: "Sibelga", type: "partner", kicker: "Partner" },
   { id: "lovable", label: "Lovable", type: "partner", kicker: "Partner — Kids AI Coding" },
   { id: "rosebud", label: "Rosebud.ai", type: "partner", kicker: "Partner — Kids AI Coding" },
   { id: "huggingface", label: "Hugging Face", type: "partner", kicker: "Partner — Kids AI Coding" },
@@ -368,8 +371,12 @@ export const links: GraphLink[] = [
   { source: "hk-media", target: "commons-hub", kind: "venue" },
   { source: "hk-media", target: "civic", kind: "track-record", label: "Civic mission" },
 
-  // Energy Data Visualisation — Commons Hub
+  // Energy Data Visualisation — Commons Hub venue, City of Brussels main sponsor, partners
   { source: "hk-energy", target: "commons-hub", kind: "venue" },
+  { source: "hk-energy", target: "bxl-ville", kind: "sponsor", label: "Main sponsor" },
+  { source: "hk-energy", target: "collibra", kind: "partner" },
+  { source: "hk-energy", target: "lovable", kind: "partner" },
+  { source: "hk-energy", target: "sibelga", kind: "partner" },
 
   // Agentic Commerce & E-invoicing — Seven Events only (NOT Commons Hub)
   { source: "hk-collibra", target: "seven-events", kind: "event" },

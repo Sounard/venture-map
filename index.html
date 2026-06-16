@@ -19,9 +19,16 @@
     <div id="graph"></div>
 
     <header id="masthead">
-      <div class="brand">
-        <span class="brand-name">Cédric Sounard</span>
-        <span class="brand-tag">Your Most Extroverted Geek — venture map</span>
+      <div class="id-card">
+        <div class="id-main">
+          <span class="brand-name">Cédric Sounard</span>
+          <span class="brand-tag">Your Most Extroverted Geek — venture map</span>
+        </div>
+        <nav class="id-contact">
+          <a class="id-link" href="tel:+32476092674"><span class="ic">☎</span><span>+32 476 09 26 74</span></a>
+          <a class="id-link" href="mailto:cedric@sevenevents.be"><span class="ic">✉</span><span>cedric@sevenevents.be</span></a>
+          <a class="id-link" href="https://www.linkedin.com/in/cedric-sounard/" target="_blank" rel="noopener"><span class="ic in">in</span><span>LinkedIn</span></a>
+        </nav>
       </div>
       <button id="reset-view" title="Reset camera">recenter</button>
     </header>
@@ -34,7 +41,8 @@
     <div id="legend"></div>
 
     <footer id="hint">
-      <span>drag to orbit · scroll to zoom · click a node</span>
+      <span class="hint-cue"><span class="hint-tap">👆</span> Tap any node to explore</span>
+      <span class="hint-sub">drag to orbit · scroll / pinch to zoom</span>
     </footer>
 
     <script type="module" src="/src/main.ts"></script>

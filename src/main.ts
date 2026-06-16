@@ -136,6 +136,7 @@ const RELATION_VERB: Record<GraphLink["kind"], string> = {
   venue: "venue",
   pipeline: "pipeline",
   partner: "partner",
+  sponsor: "main sponsor",
   client: "client",
   "track-record": "track record",
   community: "community",
@@ -149,6 +150,15 @@ let revealNode: string | null = null;
 function linkVisible(l: any): boolean {
   const r = l.reveal as string | undefined;
   return !r || r === revealNode;
+}
+
+// Label DOM elements by node id, so we can enlarge the active one on click.
+const labelEls = new Map<string, HTMLElement>();
+let activeLabelId: string | null = null;
+function setActiveLabel(id: string | null) {
+  if (activeLabelId && labelEls.has(activeLabelId)) labelEls.get(activeLabelId)!.classList.remove("is-active");
+  activeLabelId = id;
+  if (id && labelEls.has(id)) labelEls.get(id)!.classList.add("is-active");
 }
 
 // ── Build the graph ─────────────────────────────────────────────────────────
@@ -188,6 +198,7 @@ const Graph = new ForceGraph3D(el, { extraRenderers: [labelRenderer as any] })
     if (LABEL_TYPES.has(n.type) || n.showLabel) {
       const label = makeLabel(n.label, lighten(color, 0.4));
       label.position.set(0, r + 7, 0);
+      labelEls.set(n.id, label.element as HTMLElement);
       group.add(label);
     }
     return group;
@@ -277,6 +288,8 @@ setTimeout(() => Graph.zoomToFit(800, 90), 600);
 // ── Camera focus on a node ──────────────────────────────────────────────────
 function focusNode(n: GraphNode) {
   autoRotate = false;
+  document.body.classList.add("explored"); // calms the banner pulse after first click
+  setActiveLabel(n.id);
   const node = (Graph.graphData().nodes as any[]).find((x) => x.id === n.id);
   if (!node) return;
   const dist = 100;
@@ -345,6 +358,7 @@ function openPanel(n: GraphNode) {
 
 function closePanel() {
   panel.classList.add("hidden");
+  setActiveLabel(null);
 }
 
 // ── Legend — the three core activities (colour blends between them) ─────────

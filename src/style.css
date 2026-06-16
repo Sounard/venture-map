@@ -4,6 +4,9 @@
   --muted: #8b93a7;
   --line: rgba(255, 255, 255, 0.1);
   --panel: rgba(12, 14, 22, 0.82);
+  /* electric orange — YC / Commons Hub Brussels brand accent */
+  --accent: #ff6600;
+  --accent-ink: #ffb37a;
   --font: "Inter", system-ui, -apple-system, sans-serif;
   --display: "Space Grotesk", "Inter", sans-serif;
   --mono: "JetBrains Mono", ui-monospace, monospace;
@@ -48,6 +51,21 @@ body {
     -1px 1px 0 #05060a,
     1px 1px 0 #05060a,
     0 2px 4px rgba(0, 0, 0, 0.7);
+  transition: font-size 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Clicked node's title enlarges, with an electric-orange glow. */
+.node-label.is-active {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-shadow:
+    -1px -1px 0 #05060a,
+    1px -1px 0 #05060a,
+    -1px 1px 0 #05060a,
+    1px 1px 0 #05060a,
+    0 0 16px rgba(255, 102, 0, 0.55),
+    0 2px 6px rgba(0, 0, 0, 0.8);
 }
 
 /* ── Masthead ─────────────────────────────────────────────── */
@@ -58,29 +76,87 @@ body {
   right: 0;
   z-index: 10;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  padding: 22px 28px;
+  gap: 12px;
+  padding: 20px 24px;
   pointer-events: none;
 }
 
-#masthead .brand {
+/* Glass identity + contact card */
+.id-card {
+  pointer-events: auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px 18px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  max-width: min(92vw, 460px);
+}
+
+.id-main {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  margin-bottom: 10px;
 }
 
 .brand-name {
   font-family: var(--display);
-  font-size: 19px;
+  font-size: 21px;
   font-weight: 700;
   letter-spacing: 0.2px;
+  color: var(--ink);
 }
 
 .brand-tag {
   font-size: 12px;
   color: var(--muted);
   font-family: var(--mono);
+}
+
+.id-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.id-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 11px;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.id-link:hover {
+  background: rgba(255, 102, 0, 0.14);
+  border-color: rgba(255, 102, 0, 0.55);
+  color: #fff;
+}
+
+.id-link .ic {
+  color: var(--accent);
+  font-size: 12px;
+  line-height: 1;
+}
+
+.id-link .ic.in {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 11px;
+  background: var(--accent);
+  color: #1a0d00;
+  border-radius: 3px;
+  padding: 1px 3px;
 }
 
 #reset-view {
@@ -323,23 +399,110 @@ body {
   flex: none;
 }
 
-/* ── Hint ─────────────────────────────────────────────────── */
+/* ── Hint banner — the "you can click nodes" cue ───────────── */
 #hint {
   position: fixed;
-  bottom: 28px;
+  bottom: 26px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10;
-  font-family: var(--mono);
-  font-size: 11.5px;
-  color: var(--muted);
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 11px 22px;
+  background: var(--panel);
+  border: 1px solid rgba(255, 102, 0, 0.45);
+  border-radius: 999px;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 0 0 0 rgba(255, 102, 0, 0.5),
+    0 10px 30px rgba(0, 0, 0, 0.45);
   pointer-events: none;
+  text-align: center;
+  animation: hint-pulse 2.6s ease-out infinite;
+}
+
+.hint-cue {
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent-ink);
   white-space: nowrap;
 }
 
-@media (max-width: 720px) {
+.hint-tap {
+  display: inline-block;
+  margin-right: 2px;
+  animation: hint-bob 1.4s ease-in-out infinite;
+}
+
+.hint-sub {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+@keyframes hint-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 102, 0, 0.45), 0 10px 30px rgba(0, 0, 0, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 14px rgba(255, 102, 0, 0), 0 10px 30px rgba(0, 0, 0, 0.45);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 102, 0, 0), 0 10px 30px rgba(0, 0, 0, 0.45);
+  }
+}
+
+@keyframes hint-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* Dismiss the pulse once the user has opened a node at least once. */
+body.explored #hint {
+  animation: none;
+  border-color: var(--line);
+}
+body.explored .hint-cue {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  font-weight: 500;
+}
+body.explored .hint-tap {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
   #hint,
+  .hint-tap {
+    animation: none;
+  }
+}
+
+/* Keep the banner on mobile (the click cue is the whole point); hide the legend. */
+@media (max-width: 720px) {
   #legend {
     display: none;
+  }
+  #masthead {
+    padding: 14px 14px;
+  }
+  .id-card {
+    padding: 11px 14px;
+  }
+  .brand-name {
+    font-size: 18px;
+  }
+  #hint {
+    bottom: 18px;
+    padding: 9px 16px;
+    max-width: 92vw;
+  }
+  .hint-cue {
+    font-size: 13.5px;
   }
 }
