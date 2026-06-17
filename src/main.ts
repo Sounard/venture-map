@@ -285,8 +285,43 @@ controls.addEventListener("start", () => (autoRotate = false));
 
 setTimeout(() => Graph.zoomToFit(800, 90), 600);
 
+// ── Explore walk: degree-weighted first pick, then hop along edges ──────────
+const degree = new Map<string, number>();
+nodes.forEach((n) => degree.set(n.id, (neighbors.get(n.id) || []).length));
+let exploreId: string | null = null;
+let explorePrevId: string | null = null;
+
+function weightedRandomNode(): string {
+  const total = nodes.reduce((s, n) => s + (degree.get(n.id) || 0), 0);
+  let r = Math.random() * total;
+  for (const n of nodes) {
+    r -= degree.get(n.id) || 0;
+    if (r <= 0) return n.id;
+  }
+  return nodes[0].id;
+}
+
+// One Explore click: land on a busy node first, then walk to a connected node
+// each subsequent click (avoiding an immediate bounce back where we can).
+function exploreStep() {
+  autoRotate = false;
+  let nextId: string;
+  if (!exploreId) {
+    nextId = weightedRandomNode();
+  } else {
+    const adj = neighbors.get(exploreId) || [];
+    let pool = adj.filter((a) => a.node.id !== explorePrevId);
+    if (!pool.length) pool = adj;
+    nextId = pool.length ? pool[Math.floor(Math.random() * pool.length)].node.id : weightedRandomNode();
+  }
+  const target = byId.get(nextId);
+  if (target) focusNode(target);
+}
+
 // ── Camera focus on a node ──────────────────────────────────────────────────
 function focusNode(n: GraphNode) {
+  explorePrevId = exploreId; // keep the walk coherent across manual + Explore clicks
+  exploreId = n.id;
   autoRotate = false;
   document.body.classList.add("explored"); // calms the banner pulse after first click
   setActiveLabel(n.id);
@@ -378,11 +413,7 @@ legend.innerHTML =
    </div>`;
 
 // ── Controls ────────────────────────────────────────────────────────────────
-document.getElementById("reset-view")!.addEventListener("click", () => {
-  closePanel();
-  autoRotate = false;
-  Graph.zoomToFit(800, 90);
-});
+document.getElementById("reset-view")!.addEventListener("click", () => exploreStep());
 
 window.addEventListener("resize", () => {
   Graph.width(window.innerWidth).height(window.innerHeight);

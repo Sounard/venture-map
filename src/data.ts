@@ -102,13 +102,14 @@ export const nodes: GraphNode[] = [
     label: "Seven Events",
     type: "venture",
     pillars: { events: 1, tech: 0.3, education: 0.15 },
-    kicker: "Founder",
+    kicker: "Cofounder · BD & clients",
     blurb:
-      "Brussels-based full-service event agency — high-impact business forums, startup summits, demo days, investor and EU institutional events. Premium positioning: high-impact, not budget. Cédric runs BD and client relationships.",
+      "Brussels-based event agency co-founded by Cédric with Jérôme Leclanche and Sona Stepanjan — high-impact business forums and tech summits, premium positioning. Cédric runs BD and client relationships. Flagship: the AI in Defence Summit, with more AI summits incoming.",
     facts: [
-      "Premium, high-impact positioning",
-      "Brussels + international (e.g. Albania Forum)",
-      "Current focus: hackathons",
+      "Incorporated April 2026 · first event Feb 2026",
+      "Cofounders: Jérôme Leclanche (CTO/CFO, 20y) · Sona Stepanjan (ex-EEAS, 10y events)",
+      "Flagship: AI in Defence Summit",
+      "More AI summits incoming",
     ],
   },
   {
@@ -138,6 +139,7 @@ export const nodes: GraphNode[] = [
       "A collaborative space near Brussels Central run as a commons: shared governance, a dual economy (euros + CHT tokens), and a community of community builders. A solarpunk place of experimentation and an incubator for communities — and the natural physical home for many of Cédric's events.",
     facts: [
       "Cofounder & board member since 2026",
+      "100 members · 5,000 visitors / year",
       "Dual economy: euros + CHT tokens",
       "Rooms for 10–80 · coworking · events",
       "Solarpunk commons & community incubator",
@@ -176,17 +178,29 @@ export const nodes: GraphNode[] = [
     kicker: "Flagship format · current focus",
     blurb:
       "The most common events Cédric runs and his current operating focus — where education, events and tech all meet. Their own playbook, voice and partner network. Frequently co-hosted at Commons Hub Brussels and a direct feeder for the Belgian founder community.",
-    facts: ["Education × Events × Tech", "Own playbook & builder voice", "Usually at Commons Hub"],
+    facts: [
+      "10 hackathons delivered",
+      "Education × Events × Tech",
+      "Sponsors: Stripe · Collibra · Ville de Bruxelles",
+      "Usually at Commons Hub",
+    ],
   },
   {
     id: "ai-defence-summit",
     label: "AI in Defence Summit",
     type: "format",
     pillars: { events: 1, tech: 0.85, education: 0.25 },
+    prominence: 1.15,
     kicker: "Cédric — Chief of Staff",
     blurb:
-      "A summit at the intersection of AI and defence. Cédric serves as Chief of Staff for the summit, run through Seven Events.",
-    facts: ["Chief of Staff", "Defence × AI", "via Seven Events"],
+      "The flagship of Seven Events and a summit at the intersection of AI and defence. 620 approved delegates from 1,000 registrations — including NATO, six national Ministries of Defence, EU Defence Commissioner Andrius Kubilius, Oracle, Thales and Axelera. Cédric serves as Chief of Staff.",
+    facts: [
+      "1,000 registrations · 620 approved delegates",
+      "NATO · 6 Ministries of Defence · Commissioner Kubilius",
+      "Delegates incl. Oracle · Thales · Axelera",
+      "Chief of Staff: Cédric",
+    ],
+    url: "https://aidefencesummit.eu",
   },
   {
     id: "stripe-community-builder",
@@ -196,6 +210,7 @@ export const nodes: GraphNode[] = [
     kicker: "Recognised programme",
     blurb:
       "Stripe Community Builder — convening Belgian founders and builders around Stripe. Ties together the hackathons, Seven Events and the founder community.",
+    facts: ["Builder since Oct 2025", "3 meetups · 3 hackathons"],
   },
   {
     id: "spreds",
@@ -205,7 +220,12 @@ export const nodes: GraphNode[] = [
     kicker: "Live now · equity crowdfunding",
     blurb:
       "Equity campaign on Spreds to fund the HRMano launch. Belgian tax shelter — investors deduct 45% of the amount on their next tax return, and the stake grows with hrmano.",
-    facts: ["45% tax deduction (Belgian tax shelter)", "Funds the launch"],
+    facts: [
+      "Round: €25k–€190k",
+      "Pre-money: €1.8M",
+      "45% tax deduction (Belgian tax shelter)",
+      "Funds the HRMano launch",
+    ],
     url: "https://www.spreds.com/fr/compartments/10909-hrmano",
   },
 
@@ -224,7 +244,14 @@ export const nodes: GraphNode[] = [
     type: "event",
     pillars: { education: 1, events: 0.6, tech: 0.5 },
     kicker: "Education-first hackathon",
-    blurb: "Teaching kids to build with AI — with Lovable, Rosebud.ai and Hugging Face.",
+    blurb:
+      "Teaching kids to build with AI — with Lovable, Rosebud.ai and Hugging Face. 102 kids across 8 locations in 6 cities, on a shoestring €1k budget (including a professional aftermovie). The team dreamed bigger and doubled the location count from four.",
+    facts: [
+      "102 kids · 8 locations · 6 cities",
+      "Doubled locations: 4 → 8",
+      "Shoestring €1k budget (incl. aftermovie)",
+      "Past edition",
+    ],
   },
   {
     id: "hk-media",
@@ -233,7 +260,8 @@ export const nodes: GraphNode[] = [
     pillars: { education: 0.7, events: 0.7, tech: 0.9 },
     kicker: "Civic-tech hackathon",
     blurb:
-      "Building tools for a healthier, decentralised European media landscape — a hackathon with a civic mission.",
+      "Building tools for a healthier, decentralised European media landscape — a hackathon with a civic mission. A multi-sector, multi-generation room: senior policy and media figures building alongside students vibe-coding, with the sponsor in the mix.",
+    facts: ["40 participants", "Multi-sector · multi-generation", "Senior policy & media + students"],
   },
   {
     id: "hk-energy",
@@ -242,14 +270,18 @@ export const nodes: GraphNode[] = [
     pillars: { tech: 1, education: 0.5, events: 0.6 },
     kicker: "Data-viz hackathon",
     blurb: "Making energy data legible and actionable through visualisation.",
+    facts: ["8 teams · 6 pitched"],
   },
   {
     id: "hk-collibra",
     label: "Agentic Commerce & E-invoicing Hackathon",
     type: "event",
     pillars: { tech: 1, events: 0.6, education: 0.2 },
-    kicker: "with Collibra & Stripe",
-    blurb: "Agentic commerce and e-invoicing, with Collibra and Stripe. Run through Seven Events.",
+    kicker: "with Collibra & Stripe · upcoming",
+    blurb:
+      "Agentic commerce and e-invoicing, with Collibra and Stripe. Run through Seven Events. Next edition: Saturday 27 June 2026.",
+    facts: ["Upcoming · Sat 27 June 2026", "with Collibra & Stripe", "via Seven Events"],
+    url: "https://luma.com/t0vqp8cc",
   },
 
   // ── Partners / sponsors (all one level) ─────────────────────────────────
@@ -273,7 +305,9 @@ export const nodes: GraphNode[] = [
     type: "partner",
     showLabel: true,
     kicker: "Brussels chapter — cofounder",
-    blurb: "Founders Running Club, Brussels chapter — cofounded by Cédric. Where the founder community runs together.",
+    blurb:
+      "Founders Running Club, Brussels chapter — cofounded by Cédric. Where the founder community runs together, every Saturday at 9:30.",
+    facts: ["Created Nov 2025", "Weekly · Saturday 9:30", "130 in the group · ~12 run each week"],
   },
   { id: "contentors", label: "Contentors", type: "partner", kicker: "Commons Hub community" },
   { id: "open-source-village", label: "Open Source Village", type: "partner", kicker: "Commons Hub community" },
@@ -306,8 +340,13 @@ export const nodes: GraphNode[] = [
     prominence: 1.7,
     kicker: "The community at the centre",
     blurb:
-      "Young (serial) founders across Belgium — the community Cédric is part of and builds for. Hackathons, HRMano, the Stripe Community Builder programme and Commons Hub all orbit it. He isn't selling to strangers; he's one of them, talking to peers.",
-    facts: ["Early-access waitlist", "Reach into 30+ ecosystems", "Peers, not prospects"],
+      "Young (serial) founders across Belgium — the community Cédric is part of and builds for. Hackathons, HRMano, the Stripe Community Builder programme and Commons Hub all orbit it. He plays connective tissue across the ecosystem — from Wintercircus in Ghent to WAT, Betacowork, BeCentral, Pulse Foundation and Commons Hub, along a North-West to South-East axis. He isn't selling to strangers; he's one of them, talking to peers.",
+    facts: [
+      "Warm across 30+ incubators, communities & coworkings",
+      "Wintercircus · WAT · Betacowork · BeCentral · Pulse · Commons Hub",
+      "Connective tissue · NW–SE axis",
+      "Peers, not prospects",
+    ],
   },
 
   // ── Civic track record ──────────────────────────────────────────────────
@@ -318,13 +357,19 @@ export const nodes: GraphNode[] = [
     pillars: { education: 1, events: 0.3 },
     kicker: "Burgerraad voor het klimaat · cycle 2",
     blurb:
-      "Citizens' assembly on Food. Of three pillars Cédric focused on LESS WASTE — concretely matching event caterers with associations to save large quantities of food post-events. Also drove theme 3 ('shared economy') on the agenda committee, then the follow-up committee with the minister's cabinet.",
+      "Citizens' assembly on Food (Burgerraad voor het klimaat, cycle 2): 70 citizens, 33 initiatives. Cédric led initiatives on food waste and data, and sits on the 7-person follow-up committee tracking implementation with the minister's cabinet. Concretely, he coordinated saving 1+ metric tonne of food by matching event catering with local associations (with VBO-FEB and Commons Hub).",
+    facts: [
+      "70 citizens · 33 initiatives",
+      "Led food-waste & data initiatives",
+      "Comité de suivi (7) — with minister's cabinet",
+      "Coordinated 1+ tonne of food saved",
+    ],
   },
 ];
 
 export const links: GraphLink[] = [
   // Cédric's roles — the spokes of the wheel
-  { source: "cedric", target: "seven-events", kind: "role", label: "Founder · BD & clients" },
+  { source: "cedric", target: "seven-events", kind: "role", label: "Cofounder · BD & clients" },
   { source: "cedric", target: "hrmano", kind: "role", label: "Go-to-market" },
   { source: "cedric", target: "commons-hub", kind: "role", label: "Cofounder & board" },
   { source: "cedric", target: "civic", kind: "role", label: "Author / voice" },
