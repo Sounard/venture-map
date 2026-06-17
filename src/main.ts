@@ -9,6 +9,7 @@ import {
   PILLAR_COLORS,
   PILLAR_LABELS,
   NEUTRAL_COLOR,
+  PEOPLE_COLOR,
   type Pillar,
   type GraphNode,
   type GraphLink,
@@ -19,6 +20,7 @@ const PILLARS: Pillar[] = ["education", "events", "tech"];
 
 // ── Colour: blend the three core activities; neutral for orgs/people ────────
 function resolveColor(n: GraphNode): string {
+  if (n.type === "collaborator") return PEOPLE_COLOR;
   if (!n.pillars) return NEUTRAL_COLOR;
   let r = 0,
     g = 0,
@@ -60,6 +62,7 @@ const SIZE: Record<NodeType, number> = {
   client: 3.2,
   initiative: 3.6,
   audience: 5,
+  collaborator: 4,
 };
 
 const LABEL_TYPES: Set<NodeType> = new Set(["person", "venture", "thread", "format", "event", "audience", "initiative"]);
@@ -74,6 +77,7 @@ const TYPE_LABEL: Record<NodeType, string> = {
   client: "Client",
   initiative: "Civic track record",
   audience: "Community",
+  collaborator: "Person",
 };
 
 function geometryFor(type: NodeType, r: number): THREE.BufferGeometry {
@@ -96,6 +100,8 @@ function geometryFor(type: NodeType, r: number): THREE.BufferGeometry {
       return new THREE.TetrahedronGeometry(r * 1.3, 0);
     case "audience":
       return new THREE.SphereGeometry(r, 28, 28);
+    case "collaborator":
+      return new THREE.IcosahedronGeometry(r, 0); // echoes Cédric's shape — "people like me"
   }
 }
 
@@ -131,6 +137,7 @@ for (const l of links) {
 
 const RELATION_VERB: Record<GraphLink["kind"], string> = {
   role: "role",
+  team: "team",
   flagship: "flagship",
   event: "edition",
   venue: "venue",
@@ -237,10 +244,15 @@ linkForce?.distance((l: any) => {
   return 55;
 });
 
-// Reveal a node's hidden links on hover; linger so partners stay reachable.
-const revealMembers = new Set<string>(["hk-kids"]);
+// Reveal a node's hidden links on hover; linger so members stay reachable.
+// Works for any `reveal` target (Kids AI Coding's partner web, Commons Hub's
+// board, …): triggers are the hovered hubs; members are the other endpoints.
+const revealTriggers = new Set<string>();
+const revealMembers = new Set<string>();
 links.forEach((l) => {
-  if (l.reveal === "hk-kids") revealMembers.add(l.target);
+  if (!l.reveal) return;
+  revealTriggers.add(l.reveal);
+  revealMembers.add(l.source === l.reveal ? l.target : l.source);
 });
 let hideTimer: number | undefined;
 function refreshLinks() {
@@ -248,14 +260,14 @@ function refreshLinks() {
 }
 Graph.onNodeHover((node: any) => {
   const id = node?.id ?? null;
-  if (id === "hk-kids") {
+  if (id && revealTriggers.has(id)) {
     clearTimeout(hideTimer);
-    if (revealNode !== "hk-kids") {
-      revealNode = "hk-kids";
+    if (revealNode !== id) {
+      revealNode = id;
       refreshLinks();
     }
   } else if (id && revealMembers.has(id)) {
-    clearTimeout(hideTimer); // keep the web up while inspecting a partner
+    clearTimeout(hideTimer); // keep the web up while inspecting a member
   } else if (revealNode) {
     clearTimeout(hideTimer);
     hideTimer = window.setTimeout(() => {
@@ -409,7 +421,11 @@ legend.innerHTML =
   `<div class="legend-note">node colour blends the three</div>
    <div class="legend-row" style="color:${NEUTRAL_COLOR}">
      <span class="legend-swatch" style="background:${NEUTRAL_COLOR};box-shadow:none"></span>
-     <span style="color:#cfd4e3">Partners · people</span>
+     <span style="color:#cfd4e3">Partners &amp; orgs</span>
+   </div>
+   <div class="legend-row" style="color:${PEOPLE_COLOR}">
+     <span class="legend-swatch" style="background:${PEOPLE_COLOR}"></span>
+     <span style="color:#cfd4e3">People</span>
    </div>`;
 
 // ── Controls ────────────────────────────────────────────────────────────────

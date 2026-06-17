@@ -31,6 +31,9 @@ export const PILLAR_LABELS: Record<Pillar, string> = {
 /** Colour for nodes that aren't activities (partners, clients, community). */
 export const NEUTRAL_COLOR = "#9aa6c2";
 
+/** Colour for the people layer — the humans Cédric builds with. */
+export const PEOPLE_COLOR = "#e8b06a";
+
 export type PillarWeights = Partial<Record<Pillar, number>>;
 
 export type NodeType =
@@ -42,7 +45,8 @@ export type NodeType =
   | "partner" // partner org / collaborator / sponsor (all one level)
   | "client" // an organisation that buys events
   | "initiative" // a civic engagement / track-record item
-  | "audience"; // a community he reaches
+  | "audience" // a community he reaches
+  | "collaborator"; // a person Cédric builds with
 
 export interface GraphNode {
   id: string;
@@ -62,6 +66,7 @@ export interface GraphNode {
 
 export type LinkKind =
   | "role" // Cédric -> venture/thread
+  | "team" // a person on a venture / programme team
   | "flagship" // venture -> its headline programme
   | "event" // programme -> a specific edition
   | "venue" // hosted at a place
@@ -107,7 +112,7 @@ export const nodes: GraphNode[] = [
       "Brussels-based event agency co-founded by Cédric with Jérôme Leclanche and Sona Stepanjan — high-impact business forums and tech summits, premium positioning. Cédric runs BD and client relationships. Flagship: the AI in Defence Summit, with more AI summits incoming.",
     facts: [
       "Incorporated April 2026 · first event Feb 2026",
-      "Cofounders: Jérôme Leclanche (CTO/CFO, 20y) · Sona Stepanjan (ex-EEAS, 10y events)",
+      "Cofounders: Sona Stepanjan (CEO, ex-EEAS) · Jérôme Leclanche (CTO/CFO, 20y)",
       "Flagship: AI in Defence Summit",
       "More AI summits incoming",
     ],
@@ -365,6 +370,32 @@ export const nodes: GraphNode[] = [
       "Coordinated 1+ tonne of food saved",
     ],
   },
+
+  // ── People — the humans Cédric builds with ──────────────────────────────
+  {
+    id: "p-sona",
+    label: "Sona Stepanjan",
+    type: "collaborator",
+    showLabel: true,
+    kicker: "Seven Events — CEO & cofounder",
+    blurb:
+      "CEO and cofounder of Seven Events. 10 years in high-level events — ex-EEAS, working with European ambassadors across Asia (South Korea) and the Universal Exposition in Osaka, Japan.",
+  },
+  {
+    id: "p-jerome",
+    label: "Jérôme Leclanche",
+    type: "collaborator",
+    showLabel: true,
+    kicker: "Seven Events — cofounder, CTO/CFO",
+    blurb: "Entrepreneur and operator with 20 years' experience as CTO and CFO. Cofounder of Seven Events.",
+  },
+  // Commons Hub board — names surface on hovering the hub
+  { id: "p-xavier-damman", label: "Xavier Damman", type: "collaborator", kicker: "Commons Hub — board" },
+  { id: "p-leen-schelfout", label: "Leen Schelfout", type: "collaborator", kicker: "Commons Hub — board" },
+  { id: "p-inge-williams", label: "Inge Williams", type: "collaborator", kicker: "Commons Hub — board" },
+  { id: "p-mathieu-hanquin", label: "Mathieu Hanquin", type: "collaborator", kicker: "Commons Hub — board" },
+  { id: "p-friedger-muffke", label: "Friedger Müffke", type: "collaborator", kicker: "Commons Hub — board" },
+  { id: "p-miriam-dean", label: "Miriam Dean", type: "collaborator", kicker: "Commons Hub — board" },
 ];
 
 export const links: GraphLink[] = [
@@ -454,4 +485,15 @@ export const links: GraphLink[] = [
 
   // Civic track record
   { source: "civic", target: "assemblee-citoyenne", kind: "track-record" },
+
+  // People — the teams they're part of
+  { source: "p-sona", target: "seven-events", kind: "team", label: "CEO & cofounder" },
+  { source: "p-jerome", target: "seven-events", kind: "team", label: "Cofounder · CTO/CFO" },
+  // Commons Hub board — links revealed on hovering the hub
+  { source: "p-xavier-damman", target: "commons-hub", kind: "team", label: "Board", reveal: "commons-hub" },
+  { source: "p-leen-schelfout", target: "commons-hub", kind: "team", label: "Board", reveal: "commons-hub" },
+  { source: "p-inge-williams", target: "commons-hub", kind: "team", label: "Board", reveal: "commons-hub" },
+  { source: "p-mathieu-hanquin", target: "commons-hub", kind: "team", label: "Board", reveal: "commons-hub" },
+  { source: "p-friedger-muffke", target: "commons-hub", kind: "team", label: "Board", reveal: "commons-hub" },
+  { source: "p-miriam-dean", target: "commons-hub", kind: "team", label: "Board", reveal: "commons-hub" },
 ];
