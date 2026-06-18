@@ -396,9 +396,9 @@ export const nodes: GraphNode[] = [
   { id: "p-mathieu-hanquin", label: "Mathieu Hanquin", type: "collaborator", kicker: "Commons Hub — board" },
   { id: "p-friedger-muffke", label: "Friedger Müffke", type: "collaborator", kicker: "Commons Hub — board" },
   { id: "p-miriam-dean", label: "Miriam Dean", type: "collaborator", kicker: "Commons Hub — board" },
-  // HRMano cofounders
-  { id: "p-salvatore", label: "Salvatore", type: "collaborator", showLabel: true, kicker: "HRMano — cofounder" },
-  { id: "p-alexandre", label: "Alexandre", type: "collaborator", showLabel: true, kicker: "HRMano — cofounder" },
+  // HRMano cofounders — names surface on hovering HRMano
+  { id: "p-salvatore", label: "Salvatore", type: "collaborator", kicker: "HRMano — cofounder" },
+  { id: "p-alexandre", label: "Alexandre", type: "collaborator", kicker: "HRMano — cofounder" },
   // AI in Defence Summit team — names surface on hovering the summit
   { id: "p-giulia", label: "Giulia", type: "collaborator", kicker: "AI in Defence Summit — Partnerships" },
   { id: "p-julia", label: "Julia", type: "collaborator", kicker: "AI in Defence Summit — Marketing" },
@@ -504,9 +504,9 @@ export const links: GraphLink[] = [
   { source: "p-miriam-dean", target: "commons-hub", kind: "team", label: "Board", reveal: "commons-hub" },
   // Xavier Damman cofounded Open Collective — connective tissue, shown with the board web
   { source: "p-xavier-damman", target: "open-collective", kind: "team", label: "Cofounder", reveal: "commons-hub" },
-  // HRMano cofounders
-  { source: "p-salvatore", target: "hrmano", kind: "team", label: "Cofounder" },
-  { source: "p-alexandre", target: "hrmano", kind: "team", label: "Cofounder" },
+  // HRMano cofounders — revealed on hovering HRMano
+  { source: "p-salvatore", target: "hrmano", kind: "team", label: "Cofounder", reveal: "hrmano" },
+  { source: "p-alexandre", target: "hrmano", kind: "team", label: "Cofounder", reveal: "hrmano" },
   // AI in Defence Summit team — revealed on hovering the summit
   { source: "p-giulia", target: "ai-defence-summit", kind: "team", label: "Partnerships", reveal: "ai-defence-summit" },
   { source: "p-julia", target: "ai-defence-summit", kind: "team", label: "Marketing", reveal: "ai-defence-summit" },
