@@ -56,6 +56,8 @@ export interface GraphNode {
   pillars?: PillarWeights;
   /** Size multiplier on top of the type's base size. */
   prominence?: number;
+  /** Past vs present — past nodes render dimmed & smaller so "now" stands out. Default present. */
+  era?: "present" | "past";
   /** Force a permanent floating label even when the type wouldn't get one. */
   showLabel?: boolean;
   kicker?: string;
@@ -107,6 +109,8 @@ export const nodes: GraphNode[] = [
     label: "Seven Events",
     type: "venture",
     pillars: { events: 1, tech: 0.3, education: 0.15 },
+    prominence: 1.25,
+    era: "present",
     kicker: "Cofounder · BD & clients",
     blurb:
       "Brussels-based event agency co-founded by Cédric with Jérôme Leclanche and Sona Stepanjan — high-impact business forums and tech summits, premium positioning. Cédric runs BD and client relationships. Flagship: the AI in Defence Summit, with more AI summits incoming.",
@@ -122,6 +126,8 @@ export const nodes: GraphNode[] = [
     label: "HRMano",
     type: "venture",
     pillars: { tech: 1, education: 0.35 },
+    prominence: 1.1,
+    era: "present",
     kicker: "GTM Associate",
     blurb:
       "hrmano.com — a social secretariat and remuneration cockpit for early-stage entrepreneurs in Belgium. Gives incorporated freelancers a clear view of what they earn and pay in tax, without an expensive social secretariat. Pre-launch (waitlist / early access).",
@@ -134,11 +140,25 @@ export const nodes: GraphNode[] = [
     url: "https://hrmano.com",
   },
   {
+    id: "triscale",
+    label: "Triscale.co",
+    type: "venture",
+    pillars: { tech: 0.8, events: 0.3, education: 0.2 },
+    prominence: 0.9,
+    era: "present",
+    kicker: "GTM advisory · new",
+    blurb:
+      "Triscale.co — fractional GTM advisory for startups. Very new; a second GTM thread alongside HRMano, serving the Belgian founder ecosystem.",
+    facts: ["New", "Fractional GTM advisory", "For startups & founders"],
+    url: "https://triscale.co",
+  },
+  {
     id: "commons-hub",
     label: "Commons Hub Brussels",
     type: "venture",
     pillars: { events: 1, education: 0.5, tech: 0.4 },
-    prominence: 1.1,
+    prominence: 1.2,
+    era: "present",
     kicker: "Cofounder & board member",
     blurb:
       "A collaborative space near Brussels Central run as a commons: shared governance, a dual economy (euros + CHT tokens), and a community of community builders. A solarpunk place of experimentation and an incubator for communities — and the natural physical home for many of Cédric's events.",
@@ -320,10 +340,19 @@ export const nodes: GraphNode[] = [
   // ── Kids AI Coding partners (names on hover; links revealed on hover) ────
   {
     id: "north-star",
-    label: "North Star",
-    type: "partner",
-    kicker: "AI & Robotics community · Antwerp",
-    blurb: "AI and Robotics community in Antwerp. High drive — reach the stars.",
+    label: "North Star AGI",
+    type: "venture",
+    pillars: { tech: 1, education: 0.5, events: 0.4 },
+    prominence: 0.85,
+    era: "past",
+    kicker: "Past role · Chief of Relations + Events (2025)",
+    blurb:
+      "North Star AGI — making Europe the place to build in AI & robotics. Cédric was Chief of Relations + Events (Aug–Dec 2025): partnerships with Stripe, Lovable, Ingram.tech and Hugging Face, and co-led the country's most active kids' AI-coding hackathon.",
+    facts: [
+      "Chief of Relations + Events (2025)",
+      "Partnerships: Stripe · Lovable · Ingram.tech · Hugging Face",
+      "Co-led kids' AI-coding hackathon (8 venues, 6 cities)",
+    ],
   },
   { id: "watbeta", label: "WATbeta", type: "partner", kicker: "In-kind partner · innovative location" },
   { id: "wintercircus", label: "Wintercircus", type: "partner", kicker: "In-kind partner · innovative location" },
@@ -407,10 +436,12 @@ export const nodes: GraphNode[] = [
 export const links: GraphLink[] = [
   // Cédric's roles — the spokes of the wheel
   { source: "cedric", target: "seven-events", kind: "role", label: "Cofounder · BD & clients" },
-  { source: "cedric", target: "hrmano", kind: "role", label: "Go-to-market" },
+  { source: "cedric", target: "hrmano", kind: "role", label: "GTM Associate" },
+  { source: "cedric", target: "triscale", kind: "role", label: "GTM advisory" },
   { source: "cedric", target: "commons-hub", kind: "role", label: "Cofounder & board" },
   { source: "cedric", target: "civic", kind: "role", label: "Author / voice" },
   { source: "cedric", target: "tech-setup", kind: "role", label: "Operator" },
+  { source: "cedric", target: "north-star", kind: "role", label: "Chief of Relations + Events (past)" },
 
   // Seven Events
   { source: "seven-events", target: "hackathons", kind: "flagship", label: "Flagship format" },
@@ -474,6 +505,7 @@ export const links: GraphLink[] = [
   // HRMano
   { source: "hrmano", target: "spreds", kind: "flagship", label: "Live campaign" },
   { source: "hrmano", target: "founder-community", kind: "audience", label: "ICP / waitlist" },
+  { source: "triscale", target: "founder-community", kind: "audience", label: "Serves Belgian founders" },
   { source: "commons-hub", target: "hrmano", kind: "pipeline", label: "Venue network → pipeline" },
 
   // Commons Hub — community at the centre + civic + partner communities

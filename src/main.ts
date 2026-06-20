@@ -51,6 +51,15 @@ function lighten(hex: string, amt: number): string {
   return `#${c.getHexString()}`;
 }
 
+// Past chapters: desaturate toward grey so present work reads as "now" at a glance.
+function desaturate(hex: string, amt: number): string {
+  const c = new THREE.Color(hex);
+  const hsl = { h: 0, s: 0, l: 0 };
+  c.getHSL(hsl);
+  c.setHSL(hsl.h, hsl.s * (1 - amt), hsl.l);
+  return `#${c.getHexString()}`;
+}
+
 // ── Visual scale + geometry per node type ───────────────────────────────────
 const SIZE: Record<NodeType, number> = {
   person: 11,
@@ -184,26 +193,29 @@ const Graph = new ForceGraph3D(el, { extraRenderers: [labelRenderer as any] })
   })
   .nodeThreeObject((node: any) => {
     const n = node as GraphNode;
-    const color = resolveColor(n);
-    const r = SIZE[n.type] * (n.prominence ?? 1);
+    const past = n.era === "past";
+    const color = past ? desaturate(resolveColor(n), 0.6) : resolveColor(n);
+    // Past nodes shrink so the present cluster dominates at a glance.
+    const r = SIZE[n.type] * (n.prominence ?? 1) * (past ? 0.72 : 1);
     const group = new THREE.Group();
 
+    const baseEmissive = n.type === "person" ? 0.85 : n.pillars ? 0.6 : 0.4;
     const mesh = new THREE.Mesh(
       geometryFor(n.type, r),
       new THREE.MeshStandardMaterial({
         color,
         emissive: new THREE.Color(color),
-        emissiveIntensity: n.type === "person" ? 0.85 : n.pillars ? 0.6 : 0.4,
+        emissiveIntensity: baseEmissive * (past ? 0.35 : 1),
         roughness: 0.35,
         metalness: 0.1,
-        transparent: !n.pillars,
-        opacity: n.pillars ? 1 : 0.82,
+        transparent: past || !n.pillars,
+        opacity: past ? 0.5 : n.pillars ? 1 : 0.82,
       }),
     );
     group.add(mesh);
 
     if (LABEL_TYPES.has(n.type) || n.showLabel) {
-      const label = makeLabel(n.label, lighten(color, 0.4));
+      const label = makeLabel(n.label, past ? "#7c8498" : lighten(color, 0.4));
       label.position.set(0, r + 7, 0);
       labelEls.set(n.id, label.element as HTMLElement);
       group.add(label);
@@ -426,7 +438,8 @@ legend.innerHTML =
    <div class="legend-row" style="color:${PEOPLE_COLOR}">
      <span class="legend-swatch" style="background:${PEOPLE_COLOR}"></span>
      <span style="color:#cfd4e3">People</span>
-   </div>`;
+   </div>
+   <div class="legend-note">bright = what I do now · dimmed = past chapters</div>`;
 
 // ── Controls ────────────────────────────────────────────────────────────────
 document.getElementById("reset-view")!.addEventListener("click", () => exploreStep());
