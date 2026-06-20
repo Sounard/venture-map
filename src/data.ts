@@ -112,7 +112,7 @@ export const nodes: GraphNode[] = [
       "Brussels-based event agency co-founded by Cédric with Jérôme Leclanche and Sona Stepanjan — high-impact business forums and tech summits, premium positioning. Cédric runs BD and client relationships. Flagship: the AI in Defence Summit, with more AI summits incoming.",
     facts: [
       "Incorporated April 2026 · first event Feb 2026",
-      "Cofounders: Sona Stepanjan (CEO, ex-EEAS) · Jérôme Leclanche (CTO/CFO, 20y)",
+      "Cofounders: Sona Stepanjan (CEO, ex-EEAS) · Jérôme Leclanche (CTO/CFO, €10M+ exit)",
       "Flagship: AI in Defence Summit",
       "More AI summits incoming",
     ],
@@ -122,11 +122,11 @@ export const nodes: GraphNode[] = [
     label: "HRMano",
     type: "venture",
     pillars: { tech: 1, education: 0.35 },
-    kicker: "Go-to-market",
+    kicker: "GTM Associate",
     blurb:
       "hrmano.com — a social secretariat and remuneration cockpit for early-stage entrepreneurs in Belgium. Gives incorporated freelancers a clear view of what they earn and pay in tax, without an expensive social secretariat. Pre-launch (waitlist / early access).",
     facts: [
-      "Go-to-market lead",
+      "GTM Associate",
       "Pre-launch · early-access waitlist",
       "Built for young (serial) founders",
       "Speaking to peers, not strangers",
@@ -387,7 +387,7 @@ export const nodes: GraphNode[] = [
     type: "collaborator",
     showLabel: true,
     kicker: "Seven Events — cofounder, CTO/CFO",
-    blurb: "Entrepreneur and operator with 20 years' experience as CTO and CFO. Cofounder of Seven Events.",
+    blurb: "Entrepreneur and operator; a €10M+ exit under his belt. Cofounder, CTO/CFO of Seven Events.",
   },
   // Commons Hub board — names surface on hovering the hub
   { id: "p-xavier-damman", label: "Xavier Damman", type: "collaborator", kicker: "Commons Hub — board" },
