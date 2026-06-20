@@ -143,7 +143,7 @@ export const nodes: GraphNode[] = [
     blurb:
       "A collaborative space near Brussels Central run as a commons: shared governance, a dual economy (euros + CHT tokens), and a community of community builders. A solarpunk place of experimentation and an incubator for communities — and the natural physical home for many of Cédric's events.",
     facts: [
-      "Cofounder & board member since 2026",
+      "Cofounder since 2024 · board member since 2026",
       "100 members · 5,000 visitors / year",
       "Dual economy: euros + CHT tokens",
       "Rooms for 10–80 · coworking · events",
