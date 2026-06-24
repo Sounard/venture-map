@@ -64,6 +64,8 @@ export interface GraphNode {
   blurb?: string;
   facts?: string[];
   url?: string;
+  /** Free-form attributes (city, theme, org) — powers link discovery & JSON-LD. */
+  tags?: string[];
 }
 
 export type LinkKind =
@@ -268,6 +270,7 @@ export const nodes: GraphNode[] = [
     label: "Kids AI Coding",
     type: "event",
     pillars: { education: 1, events: 0.6, tech: 0.5 },
+    era: "past",
     kicker: "Education-first hackathon",
     blurb:
       "Teaching kids to build with AI — with Lovable, Rosebud.ai and Hugging Face. 102 kids across 8 locations in 6 cities, on a shoestring €1k budget (including a professional aftermovie). The team dreamed bigger and doubled the location count from four.",
@@ -441,6 +444,7 @@ export const links: GraphLink[] = [
   { source: "cedric", target: "commons-hub", kind: "role", label: "Cofounder & board" },
   { source: "cedric", target: "civic", kind: "role", label: "Author / voice" },
   { source: "cedric", target: "tech-setup", kind: "role", label: "Operator" },
+  { source: "cedric", target: "stripe-community-builder", kind: "role", label: "Stripe Community Builder" },
   { source: "cedric", target: "north-star", kind: "role", label: "Chief of Relations + Events (past)" },
 
   // Seven Events
@@ -467,11 +471,11 @@ export const links: GraphLink[] = [
   { source: "hk-stripe", target: "founder-community", kind: "community" },
 
   // Kids AI Coding — venue + partners, all hidden until the node is hovered
+  { source: "north-star", target: "hk-kids", kind: "flagship", label: "Co-led / operated" },
   { source: "hk-kids", target: "commons-hub", kind: "venue", reveal: "hk-kids" },
   { source: "hk-kids", target: "lovable", kind: "partner", reveal: "hk-kids" },
   { source: "hk-kids", target: "rosebud", kind: "partner", reveal: "hk-kids" },
   { source: "hk-kids", target: "huggingface", kind: "partner", reveal: "hk-kids" },
-  { source: "hk-kids", target: "north-star", kind: "partner", reveal: "hk-kids" },
   { source: "hk-kids", target: "watbeta", kind: "partner", reveal: "hk-kids" },
   { source: "hk-kids", target: "wintercircus", kind: "partner", reveal: "hk-kids" },
   { source: "hk-kids", target: "e6k", kind: "partner", reveal: "hk-kids" },
@@ -506,6 +510,7 @@ export const links: GraphLink[] = [
   { source: "hrmano", target: "spreds", kind: "flagship", label: "Live campaign" },
   { source: "hrmano", target: "founder-community", kind: "audience", label: "ICP / waitlist" },
   { source: "triscale", target: "founder-community", kind: "audience", label: "Serves Belgian founders" },
+  { source: "triscale", target: "hrmano", kind: "pipeline", label: "Sister GTM thread" },
   { source: "commons-hub", target: "hrmano", kind: "pipeline", label: "Venue network → pipeline" },
 
   // Commons Hub — community at the centre + civic + partner communities
@@ -523,10 +528,12 @@ export const links: GraphLink[] = [
 
   // Civic track record
   { source: "civic", target: "assemblee-citoyenne", kind: "track-record" },
+  { source: "assemblee-citoyenne", target: "commons-hub", kind: "partner", label: "Food-saving partner" },
 
   // People — the teams they're part of
   { source: "p-sona", target: "seven-events", kind: "team", label: "CEO & cofounder" },
   { source: "p-jerome", target: "seven-events", kind: "team", label: "Cofounder · CTO/CFO" },
+  { source: "p-jerome", target: "hackathons", kind: "team", label: "Co-host" },
   // Commons Hub board — links revealed on hovering the hub
   { source: "p-xavier-damman", target: "commons-hub", kind: "team", label: "Board", reveal: "commons-hub" },
   { source: "p-leen-schelfout", target: "commons-hub", kind: "team", label: "Board", reveal: "commons-hub" },
