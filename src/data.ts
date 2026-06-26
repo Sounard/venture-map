@@ -150,8 +150,8 @@ export const nodes: GraphNode[] = [
     era: "present",
     kicker: "GTM advisory · new",
     blurb:
-      "Triscale.co — fractional GTM advisory for startups. Very new; a second GTM thread alongside HRMano, serving the Belgian founder ecosystem.",
-    facts: ["New", "Fractional GTM advisory", "For startups & founders"],
+      "Triscale.co — AI-leveraged, fractional GTM advisory for startups, run with Thibault Le Meur. The ICP-finder tool is the lead magnet — the wedge that earns the advisory conversation. A second GTM thread alongside HRMano, serving the Belgian founder ecosystem.",
+    facts: ["New", "AI-leveraged GTM advisory (with Thibault Le Meur)", "ICP-finder tool = lead magnet", "Startup founders, Belgium first"],
     url: "https://triscale.co",
   },
   {
@@ -431,6 +431,7 @@ export const nodes: GraphNode[] = [
   // HRMano cofounders — names surface on hovering HRMano
   { id: "p-salvatore", label: "Salvatore", type: "collaborator", kicker: "HRMano — cofounder" },
   { id: "p-alexandre", label: "Alexandre", type: "collaborator", kicker: "HRMano — cofounder" },
+  { id: "p-thibault", label: "Thibault Le Meur", type: "collaborator", kicker: "Triscale — GTM advisory partner" },
   // AI in Defence Summit team — names surface on hovering the summit
   { id: "p-giulia", label: "Giulia", type: "collaborator", kicker: "AI in Defence Summit — Partnerships" },
   { id: "p-julia", label: "Julia", type: "collaborator", kicker: "AI in Defence Summit — Marketing" },
@@ -546,6 +547,7 @@ export const links: GraphLink[] = [
   // HRMano cofounders — revealed on hovering HRMano
   { source: "p-salvatore", target: "hrmano", kind: "team", label: "Cofounder", reveal: "hrmano" },
   { source: "p-alexandre", target: "hrmano", kind: "team", label: "Cofounder", reveal: "hrmano" },
+  { source: "p-thibault", target: "triscale", kind: "team", label: "GTM advisory partner", reveal: "triscale" },
   // AI in Defence Summit team — revealed on hovering the summit
   { source: "p-giulia", target: "ai-defence-summit", kind: "team", label: "Partnerships", reveal: "ai-defence-summit" },
   { source: "p-julia", target: "ai-defence-summit", kind: "team", label: "Marketing", reveal: "ai-defence-summit" },
