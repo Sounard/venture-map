@@ -486,11 +486,14 @@ export const nodes: GraphNode[] = [
   { id: "axelera", label: "Axelera", type: "partner", kicker: "Summit partner · AI chips" },
 
   // Seven ecosystem people
-  { id: "p-pierre-elie", label: "Pierre-Elie", type: "collaborator", kicker: "Seven Capital & Seven Camp" },
+  { id: "p-pierre-elie", label: "Pierre-Elie Mathijs", type: "collaborator", kicker: "Seven Capital & Seven Camp" },
+  { id: "p-andriy", label: "Andriy Kolodyuk", type: "collaborator", kicker: "Seven Capital & Seven Camp — managing partner" },
+  // Triscale cofounder
+  { id: "p-thibault", label: "Thibault Le Meur", type: "collaborator", kicker: "Triscale — cofounder" },
   // AI in Defence Summit speakers
   { id: "p-theo-francken", label: "Theo Francken", type: "collaborator", kicker: "Belgian Defence Minister · Summit speaker" },
   { id: "p-kubilius", label: "Andrius Kubilius", type: "collaborator", kicker: "EU Defence Commissioner · Summit speaker" },
-  { id: "p-michael-oracle", label: "Michael", type: "collaborator", kicker: "Oracle · Summit speaker" },
+  { id: "p-michael-oracle", label: "Michael Galkovsky", type: "collaborator", kicker: "Oracle — CTO Defence · Summit speaker" },
 ];
 
 export const links: GraphLink[] = [
@@ -618,8 +621,14 @@ export const links: GraphLink[] = [
   { source: "seven-camp", target: "ai-defence-summit", kind: "partner", label: "Related programme" },
   { source: "p-pierre-elie", target: "seven-capital", kind: "team", label: "Partner" },
   { source: "p-pierre-elie", target: "seven-camp", kind: "team", label: "Partner" },
+  { source: "p-andriy", target: "seven-capital", kind: "team", label: "Managing partner" },
+  { source: "p-andriy", target: "seven-camp", kind: "team", label: "Managing partner" },
 
-  // Ingram Technologies — strong node: Stripe + AI Defence Summit partner
+  // Triscale cofounder
+  { source: "p-thibault", target: "triscale", kind: "team", label: "Cofounder" },
+
+  // Ingram Technologies — Jérôme's company; strong Stripe + AI Defence Summit partner
+  { source: "p-jerome", target: "ingram", kind: "team", label: "Founder & CEO" },
   { source: "ingram", target: "ai-defence-summit", kind: "partner", label: "Partner" },
   { source: "ingram", target: "stripe", kind: "partner", label: "Partner" },
 
@@ -636,5 +645,6 @@ export const links: GraphLink[] = [
   { source: "p-theo-francken", target: "ai-defence-summit", kind: "team", label: "Speaker", reveal: "ai-defence-summit" },
   { source: "p-kubilius", target: "ai-defence-summit", kind: "team", label: "Speaker", reveal: "ai-defence-summit" },
   { source: "p-michael-oracle", target: "ai-defence-summit", kind: "team", label: "Speaker", reveal: "ai-defence-summit" },
+  { source: "p-michael-oracle", target: "oracle", kind: "team", label: "CTO Defence", reveal: "ai-defence-summit" },
   { source: "p-jerome", target: "ai-defence-summit", kind: "team", label: "Speaker", reveal: "ai-defence-summit" },
 ];
