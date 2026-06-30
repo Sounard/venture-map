@@ -75,6 +75,7 @@ export type LinkKind =
   | "event" // programme -> a specific edition
   | "venue" // hosted at a place
   | "pipeline" // feeds another venture
+  | "group" // sibling/parent company within a holding
   | "partner" // partner / sponsor of
   | "sponsor" // headline / main sponsor of
   | "client" // buys from
@@ -435,6 +436,61 @@ export const nodes: GraphNode[] = [
   // AI in Defence Summit team — names surface on hovering the summit
   { id: "p-giulia", label: "Giulia", type: "collaborator", kicker: "AI in Defence Summit — Partnerships" },
   { id: "p-julia", label: "Julia", type: "collaborator", kicker: "AI in Defence Summit — Marketing" },
+
+  // ── The Seven Seed ecosystem (Jérôme's umbrella) ────────────────────────
+  {
+    id: "seven-seed-group",
+    label: "Seven Seed Group",
+    type: "partner",
+    prominence: 1.1,
+    kicker: "Jérôme's umbrella · incubator",
+    blurb:
+      "Brussels umbrella behind Seven Capital, Seven Camp and Seven Events. Seven Seed itself is an incubator helping foreign founders land and build in Europe — the bridge into the Belgian founder ecosystem.",
+    tags: ["brussels", "founders", "incubator", "seven"],
+  },
+  {
+    id: "seven-capital",
+    label: "Seven Capital",
+    type: "partner",
+    kicker: "Defence & dual-use VC",
+    blurb:
+      "Brussels VC backing dual-use and defence tech (AI, autonomous systems, drones, cybersecurity) to re-arm Europe with innovation. Organiser-partner of the AI in Defence Summit. Managing partners include Jérôme Leclanche.",
+    tags: ["brussels", "defence", "ai", "vc", "seven"],
+  },
+  {
+    id: "seven-camp",
+    label: "Seven Camp",
+    type: "partner",
+    kicker: "Defence & dual-use accelerator",
+    blurb:
+      "Seven Capital's Brussels accelerator for defence and dual-use startups — cohorts with networking, grant/funding access and go-to-market support. Tied to the AI in Defence Summit.",
+    tags: ["brussels", "defence", "accelerator", "seven"],
+  },
+
+  // ── AI in Defence Summit — partners & speakers (reveal on the summit) ────
+  {
+    id: "ingram",
+    label: "Ingram Technologies",
+    type: "partner",
+    kicker: "AI R&D lab · Summit partner",
+    blurb:
+      "Brussels EU-based AI R&D lab building production-ready, security-first AI systems (custom agents, LLM workflows) with GDPR / EU AI Act baked in. Partner of the AI in Defence Summit; gave the opening research talk at its AI-in-Cybersec evening.",
+    tags: ["brussels", "ai", "defence", "stripe"],
+  },
+  { id: "oracle", label: "Oracle", type: "partner", kicker: "Summit speaker / delegate" },
+  { id: "sap", label: "SAP", type: "partner", kicker: "Summit partner" },
+  { id: "pwc", label: "PwC", type: "partner", kicker: "Summit partner" },
+  { id: "baker-mckenzie", label: "Baker McKenzie", type: "partner", kicker: "Summit partner" },
+  { id: "indra", label: "Indra", type: "partner", kicker: "Summit partner" },
+  { id: "defender", label: "Defender", type: "partner", kicker: "Summit media partner" },
+  { id: "axelera", label: "Axelera", type: "partner", kicker: "Summit partner · AI chips" },
+
+  // Seven ecosystem people
+  { id: "p-pierre-elie", label: "Pierre-Elie", type: "collaborator", kicker: "Seven Capital & Seven Camp" },
+  // AI in Defence Summit speakers
+  { id: "p-theo-francken", label: "Theo Francken", type: "collaborator", kicker: "Belgian Defence Minister · Summit speaker" },
+  { id: "p-kubilius", label: "Andrius Kubilius", type: "collaborator", kicker: "EU Defence Commissioner · Summit speaker" },
+  { id: "p-michael-oracle", label: "Michael", type: "collaborator", kicker: "Oracle · Summit speaker" },
 ];
 
 export const links: GraphLink[] = [
@@ -551,4 +607,34 @@ export const links: GraphLink[] = [
   // AI in Defence Summit team — revealed on hovering the summit
   { source: "p-giulia", target: "ai-defence-summit", kind: "team", label: "Partnerships", reveal: "ai-defence-summit" },
   { source: "p-julia", target: "ai-defence-summit", kind: "team", label: "Marketing", reveal: "ai-defence-summit" },
+
+  // Seven Seed ecosystem — Jérôme's umbrella; Seven Events sits inside it
+  { source: "p-jerome", target: "seven-seed-group", kind: "team", label: "Founder" },
+  { source: "seven-seed-group", target: "seven-capital", kind: "group", label: "Group company" },
+  { source: "seven-seed-group", target: "seven-camp", kind: "group", label: "Group company" },
+  { source: "seven-seed-group", target: "seven-events", kind: "group", label: "Group company" },
+  { source: "seven-seed-group", target: "founder-community", kind: "community", label: "Foreign founders → Europe" },
+  { source: "seven-capital", target: "ai-defence-summit", kind: "partner", label: "Organiser / partner" },
+  { source: "seven-camp", target: "ai-defence-summit", kind: "partner", label: "Related programme" },
+  { source: "p-pierre-elie", target: "seven-capital", kind: "team", label: "Partner" },
+  { source: "p-pierre-elie", target: "seven-camp", kind: "team", label: "Partner" },
+
+  // Ingram Technologies — strong node: Stripe + AI Defence Summit partner
+  { source: "ingram", target: "ai-defence-summit", kind: "partner", label: "Partner" },
+  { source: "ingram", target: "stripe", kind: "partner", label: "Partner" },
+
+  // AI in Defence Summit — partner orgs (revealed on hovering the summit)
+  { source: "sap", target: "ai-defence-summit", kind: "partner", reveal: "ai-defence-summit" },
+  { source: "pwc", target: "ai-defence-summit", kind: "partner", reveal: "ai-defence-summit" },
+  { source: "baker-mckenzie", target: "ai-defence-summit", kind: "partner", reveal: "ai-defence-summit" },
+  { source: "indra", target: "ai-defence-summit", kind: "partner", reveal: "ai-defence-summit" },
+  { source: "defender", target: "ai-defence-summit", kind: "partner", label: "Media partner", reveal: "ai-defence-summit" },
+  { source: "axelera", target: "ai-defence-summit", kind: "partner", reveal: "ai-defence-summit" },
+  { source: "oracle", target: "ai-defence-summit", kind: "partner", label: "Delegate / speaker", reveal: "ai-defence-summit" },
+
+  // AI in Defence Summit — speakers (revealed on hovering the summit)
+  { source: "p-theo-francken", target: "ai-defence-summit", kind: "team", label: "Speaker", reveal: "ai-defence-summit" },
+  { source: "p-kubilius", target: "ai-defence-summit", kind: "team", label: "Speaker", reveal: "ai-defence-summit" },
+  { source: "p-michael-oracle", target: "ai-defence-summit", kind: "team", label: "Speaker", reveal: "ai-defence-summit" },
+  { source: "p-jerome", target: "ai-defence-summit", kind: "team", label: "Speaker", reveal: "ai-defence-summit" },
 ];

@@ -151,6 +151,7 @@ const RELATION_VERB: Record<GraphLink["kind"], string> = {
   event: "edition",
   venue: "venue",
   pipeline: "pipeline",
+  group: "group company",
   partner: "partner",
   sponsor: "main sponsor",
   client: "client",
