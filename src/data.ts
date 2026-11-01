@@ -208,7 +208,7 @@ export const nodes: GraphNode[] = [
     blurb:
       "The most common events Cédric runs and his current operating focus — where education, events and tech all meet. Their own playbook, voice and partner network. Frequently co-hosted at Commons Hub Brussels and a direct feeder for the Belgian founder community.",
     facts: [
-      "10 hackathons delivered",
+      "13 hackathons organised or facilitated",
       "Education × Events × Tech",
       "Sponsors: Stripe · Collibra · Ville de Bruxelles",
       "Usually at Commons Hub",
