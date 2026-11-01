@@ -204,6 +204,7 @@ export const nodes: GraphNode[] = [
     pillars: { education: 1, events: 1, tech: 1 },
     prominence: 1.3,
     kicker: "Flagship format · current focus",
+    url: "https://cedric.sounard.net/hackathons/",
     blurb:
       "The most common events Cédric runs and his current operating focus — where education, events and tech all meet. Their own playbook, voice and partner network. Frequently co-hosted at Commons Hub Brussels and a direct feeder for the Belgian founder community.",
     facts: [

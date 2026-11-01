@@ -1,8 +1,8 @@
 import { defineConfig } from "vite";
 
-// Served at https://cedric.sounard.net/venture-map/ — assets live under that path.
+// Served at the root of https://cedric.sounard.net/
 export default defineConfig({
-  base: "/", // Sets the root domain as the base path instead of /venture-map/
+  base: "/",
   build: {
     target: "es2022",
     chunkSizeWarningLimit: 1600, // three.js is large; this is expected, not a problem

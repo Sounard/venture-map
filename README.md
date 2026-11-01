@@ -23,6 +23,15 @@ npm run build    # typecheck + production build to dist/
 npm run preview  # serve the build
 ```
 
+## Where things live on cedric.sounard.net
+
+Pushing to `main` deploys to GitHub Pages. Everything in `public/` is copied to the site as is.
+
+- `/` — the venture map
+- `/cv.pdf` — the CV (replace `public/cv.pdf`); `/cv` redirects to it
+- `/hackathons/` — the hackathon timeline (`public/hackathons/index.html`)
+- `/venture-map/` — redirects to `/`, so old links keep working
+
 ## How it's structured
 
 - **`src/data.ts`** — the single source of truth. Every node is an entity in my world,

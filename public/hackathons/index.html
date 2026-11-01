@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Hackathons — Cédric Sounard, Your Most Extroverted Geek</title>
+<meta name="description" content="Twenty hackathons and six more on the way: every hackathon Cédric Sounard has organised, facilitated or competed in with Seven Events, from Brussels.">
+<link rel="canonical" href="https://cedric.sounard.net/hackathons/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Cédric Sounard's Hackathon Line: twenty hackathons, six more on the way">
+<meta property="og:description" content="Every hackathon Cédric Sounard has organised, facilitated or competed in, run from Brussels with Seven Events.">
+<meta property="og:url" content="https://cedric.sounard.net/hackathons/">
+<meta property="og:image" content="https://cedric.sounard.net/hackathons/assets/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,800;6..12,900&family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: Seven Events dark plum identity. Photo hero, stat strip, then one centre spine with stations alternating left/right (single column on phones). Solid spine = done, dashed = coming. */
+:root{
+  color-scheme:dark;
+  --plum:#150A2A; --plum-2:#1E1238; --plum-3:#2A1B4A; --line:#3A2A5E;
+  --text:#F3F0FA; --muted:#A79FBF;
+  --purple:#5D2FAC; --lav:#A58BD9;
+  --org:#A58BD9; --fac:#5CC8B8; --par:#F0614F; --win:#F5A623;
+  --sans:"Avenir Next","Nunito Sans","Helvetica Neue",Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+body{background:var(--plum);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.55}
+.gutter{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.inner{max-width:1080px;margin:0 auto}
+
+/* hero */
+.hero{position:relative;overflow:hidden;background:var(--plum)}
+.hero img.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55;filter:saturate(.7)}
+.hero::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(21,10,42,.55) 0%,rgba(21,10,42,.35) 40%,var(--plum) 100%),
+  linear-gradient(90deg,rgba(93,47,172,.55),rgba(21,10,42,0) 70%)}
+.hero .inner{position:relative;z-index:1;padding-block:28px 56px;display:grid;gap:56px}
+.logo{height:22px;width:auto;display:block}
+.hero-copy{display:grid;gap:16px;max-width:720px}
+.kicker{font:600 12px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--lav)}
+h1{font-weight:900;font-size:clamp(40px,8vw,84px);line-height:.95;letter-spacing:-.025em;margin:0;text-wrap:balance}
+h1 em{font-style:normal;color:var(--lav)}
+.lede{margin:0;color:#D9D3EA;font-size:clamp(16px,2vw,19px);max-width:56ch}
+
+/* stats + filters */
+.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stat{all:unset;cursor:pointer;display:grid;gap:4px;padding:20px 18px;border-right:1px solid var(--line);position:relative}
+.stat:last-child{border-right:0}
+.stat:focus-visible{outline:2px solid var(--lav);outline-offset:-2px}
+.stat .n{font-weight:900;font-size:clamp(30px,4.5vw,46px);line-height:1;font-variant-numeric:tabular-nums;color:var(--c)}
+.stat .l{font:600 11px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.stat::before{content:"";position:absolute;left:0;right:0;top:-1px;height:3px;background:var(--c);transform:scaleX(0);transform-origin:left;transition:transform .25s}
+.stat[aria-pressed="true"]::before{transform:none}
+.stat[aria-pressed="false"].dim{opacity:.4}
+.hint{font:500 12px/1 var(--mono);color:var(--muted);padding-block:12px 0}
+
+/* timeline */
+.tl{position:relative;padding-block:24px 40px}
+.year{display:flex;justify-content:center;margin:40px 0 8px;position:relative;z-index:1}
+.year span{background:var(--plum);padding:6px 16px;font-weight:900;font-size:clamp(28px,4vw,40px);letter-spacing:-.02em;
+  -webkit-text-stroke:1px var(--lav);color:transparent;line-height:1}
+.year.future span{-webkit-text-stroke:0;color:var(--lav);font-size:14px;font-family:var(--mono);letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--lav);border-radius:999px;padding:8px 16px}
+.spine{position:absolute;top:0;bottom:0;left:50%;width:2px;transform:translateX(-1px);
+  background:linear-gradient(var(--line),var(--line))}
+.stop{display:grid;grid-template-columns:1fr 56px 1fr;align-items:start;position:relative}
+.stop[hidden]{display:none!important}
+.stop .node{grid-column:2;grid-row:1;justify-self:center;margin-top:22px;width:16px;height:16px;border-radius:50%;
+  background:var(--plum);border:3px solid var(--c);box-shadow:0 0 0 5px var(--plum);position:relative;z-index:1}
+.stop.won .node{background:var(--win);border-color:var(--win);box-shadow:0 0 0 5px var(--plum),0 0 18px rgba(245,166,35,.6)}
+.stop.tbc .node{border-style:dashed}
+.card{grid-row:1;background:var(--plum-2);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-block:8px;min-width:0;
+  transition:border-color .2s,transform .2s}
+.card:hover{border-color:var(--c);transform:translateY(-2px)}
+.stop.l .card{grid-column:1}
+.stop.r .card{grid-column:3}
+.date{grid-row:1;margin-top:18px;font:600 13px/1.3 var(--mono);color:var(--text);font-variant-numeric:tabular-nums}
+.date small{display:block;color:var(--muted);font-weight:500;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.stop.l .date{grid-column:3;text-align:left}
+.stop.r .date{grid-column:1;text-align:right}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.tag{font:600 10.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;padding:5px 8px;border-radius:999px;
+  color:var(--c);border:1px solid color-mix(in srgb,var(--c) 55%,transparent);background:color-mix(in srgb,var(--c) 12%,transparent)}
+.tag.win{--c:var(--win);background:var(--win);color:var(--plum);border-color:var(--win)}
+.tag.st{--c:var(--muted)}
+.card h3{margin:0 0 6px;font-weight:800;font-size:19px;line-height:1.25;text-wrap:balance}
+.card p{margin:0;color:var(--muted);font-size:14.5px}
+.card .fact{margin-top:10px;color:var(--text);font-size:14px;font-weight:600}
+.card a{display:inline-block;margin-top:10px;color:var(--lav);font:600 12px/1.3 var(--mono);text-decoration:none;overflow-wrap:anywhere}
+.card a:hover{text-decoration:underline}
+.card a:focus-visible{outline:2px solid var(--lav);outline-offset:2px}
+
+.now{display:grid;grid-template-columns:1fr 56px 1fr;align-items:center;margin:36px 0;position:relative;z-index:1}
+.now .pulse{grid-column:2;justify-self:center;width:22px;height:22px;border-radius:50%;background:var(--lav);box-shadow:0 0 0 6px var(--plum),0 0 0 8px var(--lav)}
+.now .lbl{grid-column:3;font:600 12px/1.3 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--lav)}
+.now .lbl b{display:block;color:var(--text);font-size:15px;letter-spacing:.04em;text-transform:none;font-family:var(--sans);font-weight:800}
+.future-zone .spine-dash{position:absolute;top:0;bottom:0;left:50%;width:2px;transform:translateX(-1px);
+  background:repeating-linear-gradient(var(--lav) 0 8px,transparent 8px 16px);opacity:.6}
+.future-zone{position:relative}
+.future-zone .card{background:linear-gradient(160deg,var(--plum-3),var(--plum-2))}
+
+footer{border-top:1px solid var(--line)}
+footer .inner{padding-block:28px 48px;display:flex;flex-wrap:wrap;gap:16px 32px;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px}
+footer .logo{height:16px;opacity:.8}
+
+@media (max-width:760px){
+  .stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .stat:nth-child(3){border-right:0}
+  .stat:nth-child(n+4){border-top:1px solid var(--line)}
+  .spine,.future-zone .spine-dash{left:15px}
+  .stop,.now{grid-template-columns:30px minmax(0,1fr)}
+  .stop .node,.now .pulse{grid-column:1}
+  .stop.l .card,.stop.r .card{grid-column:2;grid-row:2;margin-top:4px}
+  .stop.l .date,.stop.r .date{grid-column:2;grid-row:1;text-align:left;margin-top:20px}
+  .stop .node{margin-top:22px}
+  .now .lbl{grid-column:2}
+  .year{justify-content:flex-start}
+}
+@media (prefers-reduced-motion:no-preference){
+  .stop{animation:in .6s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes in{from{transform:translateY(10px)}to{transform:none}}
+  .now .pulse{animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{50%{box-shadow:0 0 0 6px var(--plum),0 0 0 12px rgba(165,139,217,.35)}}
+}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.bar nav{display:flex;gap:8px}
+.bar nav a{font:600 12px/1 var(--mono);color:var(--text);text-decoration:none;padding:9px 13px;border:1px solid var(--lav);border-radius:999px;background:rgba(21,10,42,.55)}
+.bar nav a:hover{background:var(--purple)}
+.bar nav a:focus-visible{outline:2px solid var(--lav);outline-offset:2px}
+</style>
+</head>
+<body>
+
+<section class="hero gutter">
+  <img class="photo" src="assets/hero.jpg" alt="Builders at Hackers &amp; Ravers in the Wintercircus hall, Ghent">
+  <div class="inner">
+    <div class="bar">
+      <img class="logo" src="assets/seven-events-logo.svg" alt="Seven Events">
+      <nav aria-label="Site"><a href="/">← Venture map</a><a href="/cv.pdf">CV</a></nav>
+    </div>
+    <div class="hero-copy">
+      <div class="kicker">Cédric Sounard · Hackathons · 2024 → 2027</div>
+      <h1>Twenty hackathons. <em>Six more</em> on the way.</h1>
+      <p class="lede">Run from Brussels with Seven Events, as organiser, facilitator and competitor. Every stop on the line, from the first AWS hackathon to the battery hackathon planned for 2027.</p>
+    </div>
+  </div>
+</section>
+
+<section class="gutter">
+  <div class="inner">
+    <div class="stats" id="stats" role="group" aria-label="Filter the line by role"></div>
+    <div class="hint">Tap a number to show or hide that role.</div>
+    <div class="tl" id="tl"></div>
+  </div>
+</section>
+
+<footer class="gutter">
+  <div class="inner">
+    <img class="logo" src="assets/seven-events-logo.svg" alt="Seven Events">
+    <span>Cédric Sounard, Your Most Extroverted Geek · Updated 1 November 2026 · A dashed ring means the date is still to confirm</span>
+  </div>
+</footer>
+
+<script>
+const ROLES = {
+  org:{label:"Organised", c:"var(--org)"},
+  fac:{label:"Facilitated", c:"var(--fac)"},
+  par:{label:"Competed", c:"var(--par)"},
+};
+const PAST = [
+ {year:"2024", stops:[
+  {when:"9 Oct?", sub:"2024 · to confirm", role:"par", tbc:true, title:"AWS hackathon at the Flemish government", text:"A team hackathon run by AWS in a Flemish government building. Separate from the Vlaanderen Hackathon. Likely the AWS GameDay held on 9 Oct 2024, ahead of Trefdag Vlaanderen Digitaal."},
+ ]},
+ {year:"2025", stops:[
+  {when:"30 Aug", sub:"Brussels", role:"fac", title:"AI Hackathon III: Change the Outcome", text:"The third AI Hackathon in the series. Cédric facilitated.", link:"https://luma.com/ufw1goiy"},
+  {when:"11 Oct", sub:"6 cities", role:"org", title:"Kids AI Coding", text:"Co-led with North Star AGI, together with Lovable, Rosebud.ai and Hugging Face.", fact:"102 kids · 8 venues · €1k budget", link:"https://kidsaicoding.com"},
+  {when:"22 Nov", sub:"Brussels", role:"org", title:"Agentic Payments Hackathon", text:"The first Stripe hackathon ever held in Brussels, co-hosted with Stripe Community.", link:"https://luma.com/f7gs82fe"},
+ ]},
+ {year:"2026", stops:[
+  {when:"30 Jan", sub:"FOSDEM week", role:"org", title:"Decentralised European Media", text:"AT Protocol, Bluesky, Nostr, Mastodon. With Europe MédiaLab and Eurosky.", fact:"40 builders, from policy veterans to students", link:"https://luma.com/9f10yt6f"},
+  {when:"7 Feb", sub:"Netherlands", role:"par", won:true, title:"Polderr: Interactive Learning for Heavy Machinery", text:"Interactive training for heavy machinery operators. Team SWAG, with Valerii, Atilla and Cagan, built it in 12 hours.", fact:"Won · €1,000 cash", link:"https://polderr.org/events/interactive-learning-for-heavy-machinery"},
+  {when:"14 Mar", sub:"Brussels", role:"org", title:"EDTH Brussels", text:"The European Defence Tech Hackathon, Brussels edition. Cédric helped organise it.", link:"https://luma.com/edth-2026-brussels"},
+  {when:"18 Apr", sub:"Commons Hub", role:"org", title:"The Brussels Stripe Hackathon", text:"Ship a profitable product in 6 hours. Teams of 1–3, with a Stripe talk to open.", fact:"Prizes: Stripe Press books"},
+  {when:"25 May", sub:"Brussels", role:"org", title:"Hackathon Makers Exchange", text:"Training the next generation of hackathon organisers, with Anton (Hackers & Ravers), the Habitat team, Furkan (Volonteurope) and more."},
+  {when:"30 May", sub:"Ghent", role:"par", won:true, title:"Hackers & Ravers at Wintercircus", text:"20 partners, including Soda Straw and Anthropic. Cédric entered solo.", fact:"Won the Loop (earplugs) track · prize: a drive at Spa-Francorchamps"},
+  {when:"9 Jun", sub:"Make", role:"par", title:"Make Hackathon: The Pipeline Builder", text:"Shipped a working conversion funnel for hrmano."},
+  {when:"13 Jun", sub:"Commons Hub", role:"org", title:"Energy Data Visualisation", text:"With the City of Brussels, Sibelga, Collibra and EUSEW.", fact:"8 teams · 6 pitched"},
+  {when:"19–21 Jun", sub:"Amsterdam", role:"par", title:"Megathon", text:"500 builders, 48 hours, solo. Two projects kept: Triscale ICP Submarine and Lanyards & Dragons."},
+  {when:"27 Jun", sub:"Collibra", role:"org", title:"Stripe Agentic Commerce II", text:"E-invoicing and agentic data shopping, with Stripe, Collibra and e-invoice.be.", fact:"~63 signups · ~40 in the room · 14 teams"},
+  {when:"18 Jul", sub:"Online", role:"par", title:"Hack-Nation: The VC Brain", text:"The launch never got going, so Cédric spent the weekend on other work and didn't submit."},
+  {when:"19 Sep", sub:"Volonteurope", role:"fac", title:"Hacktive Youth", text:"A youth hackathon with Volonteurope. Cédric facilitated and sat on the jury.", fact:"Facilitator + judge"},
+  {when:"30 Sep", sub:"BeCentral", role:"fac", title:"Tectonic 2026: Brussels Hub", text:"The Brussels preselection for the Tectonic Hackathon, billed as Belgium's biggest hackathon. Cédric facilitated.", link:"https://builderbase.com/event/tectonic-hackathon-brussels-belgiums-biggest-hackathon"},
+  {when:"3 Oct", sub:"Collibra", role:"org", title:"Stripe Agentic Commerce III", text:"With Stripe, Collibra and e-invoice.be. Google, Cursor and Lovable provided compute.", fact:"105 signups, a record"},
+  {when:"16–18 Oct", sub:"Online · EU", role:"fac", title:"EU Agri-Hackathon", text:"Run by the European Commission (DG AGRI) with ICF Next. Cédric was one of 3 facilitators.", fact:"Up to 30 teams · 3 challenges"},
+  {when:"29 Oct", sub:"Wintercircus · Ghent", role:"par", title:"Solve with Google · Edition 3", text:"With BSPHO, the Belgian Society of Paediatric Haemato-Oncology. Teams of up to 5 built GenAI tools for care, data sharing and treatment precision for young cancer patients in Belgium.", fact:"No winners declared"},
+ ]},
+];
+const FUTURE = [
+  {when:"21 Nov", sub:"2026 · Brussels", role:"org", title:"Hack the Rails", status:"Confirmed", text:"European Sleeper as lead sponsor, with the City of Brussels, HackathonHub and Anthropic. The biggest one yet.", link:"https://luma.com/f0eeirec"},
+  {when:"9 Dec", sub:"2026", role:"fac", title:"EU Agri winners on stage", status:"Follow-up", text:"The winning teams present at EU Agri-Food Days."},
+  {when:"19 Dec", sub:"2026", role:"org", title:"Minecraft Family Hack", status:"Confirmed", text:"For families, ages 9 and up. With Toon and Otto Vanagt, Discord and Maker Camp, as an official Minecraft Education partner.", link:"https://luma.com/qb00kmal"},
+  {when:"Dec", sub:"2026", role:"org", tbc:true, title:"Edge Computer Vision", status:"Tentative", text:"Computer vision on edge devices, with AI-Blox."},
+  {when:"Jan", sub:"2027", role:"org", tbc:true, title:"Open Source Hackathon", status:"Announced", text:"With Open Source Village.", link:"https://opensourcevillage.eu"},
+  {when:"Feb", sub:"2027", role:"org", tbc:true, title:"Event Tech Hackathon", status:"Tentative", text:"With exhibitly.ai and SpeakSoon."},
+  {when:"May", sub:"2027", role:"org", tbc:true, title:"Batteries Hackathon", status:"Tentative", text:"With the EIC, the European Space Agency and a French cyclotron, using particle-accelerator data to study why batteries decay."},
+];
+
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+const tl = document.getElementById('tl');
+const counts = {org:0, fac:0, par:0, won:0, next:FUTURE.length};
+let side = 0;
+
+function stopHTML(s, future){
+  const r = ROLES[s.role];
+  const cls = ['stop', (side++ % 2) ? 'r' : 'l', s.won ? 'won' : '', s.tbc ? 'tbc' : ''].join(' ');
+  const roleLabel = future && s.role === 'org' ? 'Organising' : r.label;
+  return `<div class="${cls}" data-role="${s.role}" ${s.won ? 'data-won="1"' : ''} data-future="${future ? 1 : 0}" style="--c:${r.c}">
+    <div class="date">${esc(s.when)}<small>${esc(s.sub || '')}</small></div>
+    <span class="node" aria-hidden="true"></span>
+    <article class="card">
+      <div class="tags"><span class="tag">${roleLabel}</span>${s.won ? '<span class="tag win">★ Winner</span>' : ''}${s.status ? `<span class="tag st">${esc(s.status)}</span>` : ''}</div>
+      <h3>${esc(s.title)}</h3>
+      <p>${esc(s.text)}</p>
+      ${s.fact ? `<p class="fact">${esc(s.fact)}</p>` : ''}
+      ${s.link ? `<a href="${esc(s.link)}" target="_blank" rel="noopener">${esc(s.link.replace('https://',''))} ↗</a>` : ''}
+    </article>
+  </div>`;
+}
+
+let html = '<div class="spine" aria-hidden="true"></div>';
+for (const y of PAST){
+  html += `<div class="year"><span>${y.year}</span></div>`;
+  for (const s of y.stops){ counts[s.role]++; if (s.won) counts.won++; html += stopHTML(s, false); }
+}
+html += `<div class="now"><span class="pulse" aria-hidden="true"></span><div class="lbl">You are here<b>1 November 2026</b></div></div>`;
+html += `<div class="future-zone"><div class="spine-dash" aria-hidden="true"></div><div class="year future"><span>Coming up</span></div>`;
+for (const s of FUTURE) html += stopHTML(s, true);
+html += `</div>`;
+tl.innerHTML = html;
+// solid spine only covers the past
+const spine = tl.querySelector('.spine');
+const fitSpine = () => { spine.style.bottom = (tl.offsetHeight - tl.querySelector('.now').offsetTop - 11) + 'px'; };
+fitSpine(); addEventListener('resize', fitSpine);
+
+const stats = document.getElementById('stats');
+const filters = [
+  {key:'org', n:counts.org, l:'Organised', c:'var(--org)'},
+  {key:'fac', n:counts.fac, l:'Facilitated', c:'var(--fac)'},
+  {key:'par', n:counts.par, l:'Competed', c:'var(--par)'},
+  {key:'won', n:counts.won, l:'Wins', c:'var(--win)'},
+  {key:'next', n:counts.next, l:'Coming up', c:'var(--lav)'},
+];
+let focus = null;
+for (const f of filters){
+  const b = document.createElement('button');
+  b.className = 'stat'; b.type = 'button'; b.id = 'f-' + f.key;
+  b.style.setProperty('--c', f.c);
+  b.setAttribute('aria-pressed', 'false');
+  b.innerHTML = `<span class="n">${f.n}</span><span class="l">${f.l}</span>`;
+  b.addEventListener('click', () => { focus = focus === f.key ? null : f.key; apply(); });
+  stats.appendChild(b);
+}
+function apply(){
+  stats.querySelectorAll('.stat').forEach(b => {
+    const on = b.id === 'f-' + focus;
+    b.setAttribute('aria-pressed', on);
+    b.classList.toggle('dim', !!focus && !on);
+  });
+  tl.querySelectorAll('.stop').forEach(s => {
+    let show = true;
+    if (focus === 'won') show = !!s.dataset.won;
+    else if (focus === 'next') show = s.dataset.future === '1';
+    else if (focus) show = s.dataset.role === focus && s.dataset.future === '0';
+    s.hidden = !show;
+  });
+  fitSpine();
+}
+</script>
+
+</body></html>
