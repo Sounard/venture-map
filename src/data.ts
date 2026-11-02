@@ -425,7 +425,7 @@ export const nodes: GraphNode[] = [
   },
   // Commons Hub board — names surface on hovering the hub
   { id: "p-xavier-damman", label: "Xavier Damman", type: "collaborator", kicker: "Commons Hub — board" },
-  { id: "p-leen-schelfout", label: "Leen Schelfout", type: "collaborator", kicker: "Commons Hub — board" },
+  { id: "p-leen-schelfhoud", label: "Leen Schelfhoud", type: "collaborator", kicker: "Commons Hub — board" },
   { id: "p-inge-williams", label: "Inge Williams", type: "collaborator", kicker: "Commons Hub — board" },
   { id: "p-mathieu-hanquin", label: "Mathieu Hanquin", type: "collaborator", kicker: "Commons Hub — board" },
   { id: "p-friedger-muffke", label: "Friedger Müffke", type: "collaborator", kicker: "Commons Hub — board" },
@@ -597,7 +597,7 @@ export const links: GraphLink[] = [
   { source: "p-jerome", target: "hackathons", kind: "team", label: "Co-host" },
   // Commons Hub board — links revealed on hovering the hub
   { source: "p-xavier-damman", target: "commons-hub", kind: "team", label: "Board", reveal: "commons-hub" },
-  { source: "p-leen-schelfout", target: "commons-hub", kind: "team", label: "Board", reveal: "commons-hub" },
+  { source: "p-leen-schelfhoud", target: "commons-hub", kind: "team", label: "Board", reveal: "commons-hub" },
   { source: "p-inge-williams", target: "commons-hub", kind: "team", label: "Board", reveal: "commons-hub" },
   { source: "p-mathieu-hanquin", target: "commons-hub", kind: "team", label: "Board", reveal: "commons-hub" },
   { source: "p-friedger-muffke", target: "commons-hub", kind: "team", label: "Board", reveal: "commons-hub" },
