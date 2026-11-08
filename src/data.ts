@@ -116,10 +116,10 @@ export const nodes: GraphNode[] = [
     era: "present",
     kicker: "Cofounder · BD & clients",
     blurb:
-      "Brussels-based event agency co-founded by Cédric with Jérôme Leclanche and Sona Stepanjan — high-impact business forums and tech summits, premium positioning. Cédric runs BD and client relationships. Flagship: the AI in Defence Summit, with more AI summits incoming.",
+      "Brussels-based event agency co-founded by Cédric with Jerome Leclanche and Sona Stepanjan — high-impact business forums and tech summits, premium positioning. Cédric runs BD and client relationships. Flagship: the AI in Defence Summit, with more AI summits incoming.",
     facts: [
       "Incorporated April 2026 · first event Feb 2026",
-      "Cofounders: Sona Stepanjan (CEO, ex-EEAS) · Jérôme Leclanche (CTO/CFO, €10M+ exit)",
+      "Cofounders: Sona Stepanjan (CEO, ex-EEAS) · Jerome Leclanche (CTO/CFO, €10M+ exit)",
       "Flagship: AI in Defence Summit",
       "More AI summits incoming",
     ],
@@ -152,7 +152,7 @@ export const nodes: GraphNode[] = [
     kicker: "GTM advisory · new",
     blurb:
       "Triscale.co — AI-leveraged, fractional GTM advisory for startups, run with Thibault Le Meur. The ICP-finder tool is the lead magnet — the wedge that earns the advisory conversation. A second GTM thread alongside HRMano, serving the Belgian founder ecosystem.",
-    facts: ["New", "AI-leveraged GTM advisory (with Thibault Le Meur)", "ICP-finder tool = lead magnet", "Startup founders, Belgium first"],
+    facts: ["New", "AI-leveraged GTM advisory (with Thibault Le Meur)", "ICP-finder tool = lead magnet", "Client: Shifter (NL) · GTM", "Startup founders, Belgium first"],
     url: "https://triscale.co",
   },
   {
@@ -182,6 +182,42 @@ export const nodes: GraphNode[] = [
     blurb:
       "Thought leadership and public-life work — building reputation capital and a coherent body of work over the long term. Core thesis: modern democracy runs on absurdly low bandwidth, and we can now let citizens participate far more granularly on the topics where they have genuine skin in the game.",
     facts: ["Substance over virality", "Thesis: democracy's low bandwidth", "Lived track record, not commentary"],
+  },
+
+  // ── Advisory roles (Cédric advises; separate entities) ─────────────────
+  {
+    id: "u-regenerative",
+    label: "U-Regenerative",
+    type: "venture",
+    pillars: { education: 0.7, events: 0.3 },
+    prominence: 0.8,
+    era: "present",
+    kicker: "Advisor · with Michelle Hung",
+    blurb:
+      "Regenerative and ocean-restoration venture. Cédric advises, and ran field support and visual documentation for its Bali ridge-to-reef field mission with the Livingseas Foundation (Aug 2026).",
+    facts: ["Advisor", "Bali field mission · Aug 2026", "With the Livingseas Foundation"],
+  },
+  {
+    id: "uhope",
+    label: "U'Hope",
+    type: "venture",
+    pillars: { education: 1 },
+    prominence: 0.8,
+    era: "present",
+    kicker: "Advisor · with Ulysse Baguida",
+    blurb: "Education venture. Cédric advises on go-to-market; his earlier fractional GTM work brought TV opportunities.",
+    facts: ["Advisor", "Education", "Go-to-market"],
+  },
+  {
+    id: "ecosfeeria",
+    label: "Ecosfeeria",
+    type: "venture",
+    pillars: { education: 0.5, events: 0.5 },
+    prominence: 0.8,
+    era: "present",
+    kicker: "Advisor · organic art · with Didier Bouillon",
+    blurb: "Organic art project led by Didier Bouillon. Cédric advises.",
+    facts: ["Advisor", "Organic art"],
   },
 
   // ── Cross-cutting thread ────────────────────────────────────────────────
@@ -417,7 +453,7 @@ export const nodes: GraphNode[] = [
   },
   {
     id: "p-jerome",
-    label: "Jérôme Leclanche",
+    label: "Jerome Leclanche",
     type: "collaborator",
     showLabel: true,
     kicker: "Seven Events — cofounder, CTO/CFO",
@@ -434,17 +470,22 @@ export const nodes: GraphNode[] = [
   { id: "p-salvatore", label: "Salvatore", type: "collaborator", kicker: "HRMano — cofounder" },
   { id: "p-alexandre", label: "Alexandre", type: "collaborator", kicker: "HRMano — cofounder" },
   { id: "p-thibault", label: "Thibault Le Meur", type: "collaborator", kicker: "Triscale — GTM advisory partner" },
+  { id: "shifter", label: "Shifter", type: "client", kicker: "Triscale client · NL", blurb: "Workforce orchestration, Netherlands. Go-to-market delivered through Triscale.", url: "https://shifter.nl" },
+  // Advisory — the founders Cédric advises
+  { id: "p-michelle-hung", label: "Michelle Hung", type: "collaborator", kicker: "U-Regenerative" },
+  { id: "p-ulysse-baguida", label: "Ulysse Baguida", type: "collaborator", kicker: "U'Hope" },
+  { id: "p-didier-bouillon", label: "Didier Bouillon", type: "collaborator", kicker: "Ecosfeeria · organic art" },
   // AI in Defence Summit team — names surface on hovering the summit
   { id: "p-giulia", label: "Giulia", type: "collaborator", kicker: "AI in Defence Summit — Partnerships" },
   { id: "p-julia", label: "Julia", type: "collaborator", kicker: "AI in Defence Summit — Marketing" },
 
-  // ── The Seven Seed ecosystem (Jérôme's umbrella) ────────────────────────
+  // ── The Seven Seed ecosystem (Jerome's umbrella) ────────────────────────
   {
     id: "seven-seed-group",
     label: "Seven Seed Group",
     type: "partner",
     prominence: 1.1,
-    kicker: "Jérôme's umbrella · incubator",
+    kicker: "Jerome's umbrella · incubator",
     blurb:
       "Brussels umbrella behind Seven Capital, Seven Camp and Seven Events. Seven Seed itself is an incubator helping foreign founders land and build in Europe — the bridge into the Belgian founder ecosystem.",
     tags: ["brussels", "founders", "incubator", "seven"],
@@ -455,7 +496,7 @@ export const nodes: GraphNode[] = [
     type: "partner",
     kicker: "Defence & dual-use VC",
     blurb:
-      "Brussels VC backing dual-use and defence tech (AI, autonomous systems, drones, cybersecurity) to re-arm Europe with innovation. Organiser-partner of the AI in Defence Summit. Managing partners include Jérôme Leclanche.",
+      "Brussels VC backing dual-use and defence tech (AI, autonomous systems, drones, cybersecurity) to re-arm Europe with innovation. Organiser-partner of the AI in Defence Summit. Managing partners include Jerome Leclanche.",
     tags: ["brussels", "defence", "ai", "vc", "seven"],
   },
   {
@@ -502,6 +543,13 @@ export const links: GraphLink[] = [
   { source: "cedric", target: "seven-events", kind: "role", label: "Cofounder · BD & clients" },
   { source: "cedric", target: "hrmano", kind: "role", label: "GTM Associate" },
   { source: "cedric", target: "triscale", kind: "role", label: "GTM advisory" },
+  { source: "cedric", target: "u-regenerative", kind: "role", label: "Advisor" },
+  { source: "cedric", target: "uhope", kind: "role", label: "Advisor" },
+  { source: "cedric", target: "ecosfeeria", kind: "role", label: "Advisor" },
+  { source: "shifter", target: "triscale", kind: "client", label: "GTM client" },
+  { source: "p-michelle-hung", target: "u-regenerative", kind: "team", label: "Founder", reveal: "u-regenerative" },
+  { source: "p-ulysse-baguida", target: "uhope", kind: "team", label: "Founder", reveal: "uhope" },
+  { source: "p-didier-bouillon", target: "ecosfeeria", kind: "team", label: "Artist", reveal: "ecosfeeria" },
   { source: "cedric", target: "commons-hub", kind: "role", label: "Cofounder & board" },
   { source: "cedric", target: "civic", kind: "role", label: "Author / voice" },
   { source: "cedric", target: "tech-setup", kind: "role", label: "Operator" },
@@ -612,7 +660,7 @@ export const links: GraphLink[] = [
   { source: "p-giulia", target: "ai-defence-summit", kind: "team", label: "Partnerships", reveal: "ai-defence-summit" },
   { source: "p-julia", target: "ai-defence-summit", kind: "team", label: "Marketing", reveal: "ai-defence-summit" },
 
-  // Seven Seed ecosystem — Jérôme's umbrella; Seven Events sits inside it
+  // Seven Seed ecosystem — Jerome's umbrella; Seven Events sits inside it
   { source: "p-jerome", target: "seven-seed-group", kind: "team", label: "Founder" },
   { source: "seven-seed-group", target: "seven-capital", kind: "group", label: "Group company" },
   { source: "seven-seed-group", target: "seven-camp", kind: "group", label: "Group company" },
@@ -628,7 +676,7 @@ export const links: GraphLink[] = [
   // Triscale cofounder
   { source: "p-thibault", target: "triscale", kind: "team", label: "Cofounder" },
 
-  // Ingram Technologies — Jérôme's company; strong Stripe + AI Defence Summit partner
+  // Ingram Technologies — Jerome's company; strong Stripe + AI Defence Summit partner
   { source: "p-jerome", target: "ingram", kind: "team", label: "Founder & CEO" },
   { source: "ingram", target: "ai-defence-summit", kind: "partner", label: "Partner" },
   { source: "ingram", target: "stripe", kind: "partner", label: "Partner" },
