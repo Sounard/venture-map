@@ -122,6 +122,15 @@ body {
   font-weight: 700;
   letter-spacing: 0.2px;
   color: var(--ink);
+  text-decoration: none;
+}
+a.brand-name::before {
+  content: "← ";
+  color: var(--accent);
+  font-weight: 500;
+}
+a.brand-name:hover {
+  color: var(--accent-ink);
 }
 
 .brand-tag {

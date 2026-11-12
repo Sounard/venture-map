@@ -27,10 +27,10 @@ npm run preview  # serve the build
 
 Pushing to `main` deploys to GitHub Pages. Everything in `public/` is copied to the site as is.
 
-- `/` — the venture map
 - `/cv.pdf` — the CV (replace `public/cv.pdf`); `/cv` redirects to it
 - `/hackathons/` — the hackathon timeline (`public/hackathons/index.html`)
-- `/venture-map/` — redirects to `/`, so old links keep working
+- `/` — homepage (`index.html`): intro, contact, doors to the map and the hackathons
+- `/venture-map/` — the 3D map (`venture-map/index.html` + `src/`)
 
 ## How it's structured
 
