@@ -46,7 +46,8 @@ export type NodeType =
   | "client" // an organisation that buys events
   | "initiative" // a civic engagement / track-record item
   | "audience" // a community he reaches
-  | "collaborator"; // a person Cédric builds with
+  | "collaborator" // a person Cédric builds with
+  | "build"; // something Cédric shipped — a site, a tool, an agent, a game
 
 export interface GraphNode {
   id: string;
@@ -245,6 +246,7 @@ export const nodes: GraphNode[] = [
       "The most common events Cédric runs and his current operating focus — where education, events and tech all meet. Their own playbook, voice and partner network. Frequently co-hosted at Commons Hub Brussels and a direct feeder for the Belgian founder community.",
     facts: [
       "13 hackathons organised or facilitated",
+      "20 on the line · 3 wins · 6 more coming",
       "Education × Events × Tech",
       "Sponsors: Stripe · Collibra · Ville de Bruxelles",
       "Usually at Commons Hub",
@@ -294,14 +296,28 @@ export const nodes: GraphNode[] = [
     url: "https://www.spreds.com/fr/compartments/10909-hrmano",
   },
 
-  // ── Past hackathons ─────────────────────────────────────────────────────
+  // ── Hackathon editions (from ~/snippets/hackathons/HACKATHONS.md) ──────
   {
-    id: "hk-stripe",
-    label: "Stripe Hackathons",
+    id: "hk-aws-gameday",
+    label: "AWS GameDay",
     type: "event",
-    pillars: { events: 1, tech: 0.8, education: 0.35 },
-    kicker: "with Stripe",
-    blurb: "Recurring Stripe-backed hackathons — co-hosted across Commons Hub and Seven Events.",
+    pillars: { tech: 1, events: 0.6, education: 0.3 },
+    era: "past",
+    kicker: "Competed · 4 Oct 2023",
+    blurb:
+      "AWS GameDay: Chaotic Commencement, at Trefdag Vlaanderen Digitaal in Brussels. The first hackathon on the line.",
+    facts: ["Participated", "Brussels · 2023"],
+  },
+  {
+    id: "hk-ai-outcome",
+    label: "AI Hackathon III: Change the Outcome",
+    type: "event",
+    pillars: { events: 1, tech: 0.8, education: 0.4 },
+    era: "past",
+    kicker: "Facilitated · 30 Aug 2025",
+    blurb:
+      "Facilitation role on the third AI Hackathon, 'Change the Outcome'.",
+    facts: ["Facilitated"],
   },
   {
     id: "hk-kids",
@@ -309,45 +325,249 @@ export const nodes: GraphNode[] = [
     type: "event",
     pillars: { education: 1, events: 0.6, tech: 0.5 },
     era: "past",
-    kicker: "Education-first hackathon",
+    showLabel: true,
+    kicker: "Co-led · 11 Oct 2025",
     blurb:
-      "Teaching kids to build with AI — with Lovable, Rosebud.ai and Hugging Face. 102 kids across 8 locations in 6 cities, on a shoestring €1k budget (including a professional aftermovie). The team dreamed bigger and doubled the location count from four.",
-    facts: [
-      "102 kids · 8 locations · 6 cities",
-      "Doubled locations: 4 → 8",
-      "Shoestring €1k budget (incl. aftermovie)",
-      "Past edition",
-    ],
+      "Teaching kids to build with AI, with Lovable, Rosebud.ai and Hugging Face. 102 kids across 8 locations in 6 cities, on a €1k budget (including a professional aftermovie). The team doubled the location count from four to eight.",
+    facts: ["102 kids · 8 locations · 6 cities", "Doubled locations: 4 → 8", "€1k budget, aftermovie included"],
+    url: "https://kidsaicoding.com",
+  },
+  {
+    id: "hk-agentic-payments",
+    label: "Agentic Payments Hackathon",
+    type: "event",
+    pillars: { events: 1, tech: 0.8, education: 0.4 },
+    era: "past",
+    kicker: "Co-host · 22 Nov 2025",
+    blurb:
+      "The first Stripe hackathon in Brussels, co-hosted with the Stripe Community.",
+    facts: ["First Stripe hackathon in Brussels", "Co-host"],
   },
   {
     id: "hk-media",
     label: "Decentralised European Media Hackathon",
     type: "event",
     pillars: { education: 0.7, events: 0.7, tech: 0.9 },
-    kicker: "Civic-tech hackathon",
+    era: "past",
+    showLabel: true,
+    kicker: "Co-host · 30 Jan 2026 (FOSDEM week)",
     blurb:
-      "Building tools for a healthier, decentralised European media landscape — a hackathon with a civic mission. A multi-sector, multi-generation room: senior policy and media figures building alongside students vibe-coding, with the sponsor in the mix.",
-    facts: ["40 participants", "Multi-sector · multi-generation", "Senior policy & media + students"],
+      "Tools for a healthier, decentralised European media landscape, with Europe MédiaLab and Eurosky. A multi-sector, multi-generation room: senior policy and media figures building alongside students. “Very successful hackathon… many contacts were made IRL that could lead to cooperation.” (Christophe Leclercq, Europe MédiaLab)",
+    facts: ["40 builders", "Multi-sector · multi-generation"],
+  },
+  {
+    id: "hk-polderr",
+    label: "Polderr Hackathon",
+    type: "event",
+    pillars: { tech: 1, events: 0.6, education: 0.3 },
+    era: "past",
+    showLabel: true,
+    kicker: "🏆 Won · 7 Feb 2026 · Rotterdam",
+    blurb:
+      "Interactive learning for heavy machinery, in Rotterdam. Team SWAG built it in 12 hours and took first place.",
+    facts: ["🏆 Winner · €1,000 cash", "12-hour build", "Rotterdam (NL)"],
+    url: "https://polderr.org",
+  },
+  {
+    id: "hk-edth",
+    label: "EDTH Brussels",
+    type: "event",
+    pillars: { tech: 1, events: 0.6, education: 0.3 },
+    era: "past",
+    kicker: "Helped organise · 14 Mar 2026",
+    blurb:
+      "European Defence Tech Hackathon, Brussels edition.",
+    facts: ["Helped organise", "Defence tech"],
+  },
+  {
+    id: "hk-stripe-bxl",
+    label: "The Brussels Stripe Hackathon",
+    type: "event",
+    pillars: { events: 1, tech: 0.8, education: 0.4 },
+    era: "past",
+    kicker: "Co-host · 18 Apr 2026",
+    blurb:
+      "A 6-hour build at Commons Hub with the Stripe Community. Stripe Press books as prizes.",
+    facts: ["Co-host", "6-hour build", "Stripe Press prizes"],
+  },
+  {
+    id: "hk-makers-exchange",
+    label: "Hackathon Makers Exchange",
+    type: "event",
+    pillars: { education: 1, events: 0.8, tech: 0.4 },
+    era: "past",
+    kicker: "Founded & organised · 25 May 2026",
+    blurb:
+      "Training the next generation of hackathon organisers: Hackers & Ravers, the Habitat team, Volonteurope and more, in one room to swap what works.",
+    facts: ["Founder", "Organisers training organisers"],
+  },
+  {
+    id: "hk-wintercircus",
+    label: "Hackers & Ravers, Wintercircus",
+    type: "event",
+    pillars: { tech: 1, events: 0.6, education: 0.3 },
+    era: "past",
+    showLabel: true,
+    kicker: "🏆 Solo win · 30 May 2026 · Ghent",
+    blurb:
+      "A 20-partner hackathon at Wintercircus in Ghent. Cédric won the Loop (earplugs) track solo. The prize: a drive at Spa-Francorchamps.",
+    facts: ["🏆 Solo win · Loop track", "20 partners", "Prize: Spa-Francorchamps drive"],
+  },
+  {
+    id: "hk-make",
+    label: "Make Hackathon",
+    type: "event",
+    pillars: { tech: 1, events: 0.6, education: 0.3 },
+    era: "past",
+    kicker: "Competed · 9 Jun 2026",
+    blurb:
+      "The 'Pipeline Builder' hackathon by Make. No prize, but shipped a working HRMano funnel.",
+    facts: ["Participated", "Shipped a working HRMano funnel"],
   },
   {
     id: "hk-energy",
     label: "Energy Data Visualisation Hackathon",
     type: "event",
-    pillars: { tech: 1, education: 0.5, events: 0.6 },
-    kicker: "Data-viz hackathon",
-    blurb: "Making energy data legible and actionable through visualisation.",
-    facts: ["8 teams · 6 pitched"],
+    pillars: { tech: 1, events: 0.6, education: 0.3 },
+    era: "past",
+    kicker: "Organised · 13 Jun 2026",
+    blurb:
+      "Making energy data legible, with the City of Brussels as main sponsor, at Commons Hub during EU Sustainable Energy Week.",
+    facts: ["8 teams · 6 pitched", "Main sponsor: City of Brussels", "EUSEW 2026"],
   },
   {
-    id: "hk-collibra",
-    label: "Agentic Commerce & E-invoicing Hackathon",
+    id: "hk-megathon",
+    label: "Megathon, Amsterdam",
     type: "event",
-    pillars: { tech: 1, events: 0.6, education: 0.2 },
-    kicker: "with Collibra & Stripe · upcoming",
+    pillars: { tech: 1, events: 0.6, education: 0.3 },
+    era: "past",
+    kicker: "Competed solo · 19–21 Jun 2026",
     blurb:
-      "Agentic commerce and e-invoicing, with Collibra and Stripe. Run through Seven Events. Next edition: Saturday 27 June 2026.",
-    facts: ["Upcoming · Sat 27 June 2026", "with Collibra & Stripe", "via Seven Events"],
+      "500 vetted builders at The HUBB, Amsterdam. Built solo; lanyards.lol came out of it.",
+    facts: ["500 builders", "Solo"],
+  },
+  {
+    id: "hk-agentic-commerce",
+    label: "Agentic Commerce & E-invoicing",
+    type: "event",
+    pillars: { events: 1, tech: 0.8, education: 0.4 },
+    era: "past",
+    showLabel: true,
+    kicker: "Co-host · 27 Jun & 3 Oct 2026",
+    blurb:
+      "Two editions with Stripe, Collibra and e-invoice.be. The October edition drew 105 signups, a record.",
+    facts: ["II · 27 Jun: ~40 in the room, 14 teams", "III · 3 Oct: 105 signups, a record", "with Stripe · Collibra · e-invoice.be"],
     url: "https://luma.com/t0vqp8cc",
+  },
+  {
+    id: "hk-volonteurope",
+    label: "Volonteurope Hacktive Youth",
+    type: "event",
+    pillars: { education: 1, events: 0.6, tech: 0.5 },
+    era: "past",
+    kicker: "Facilitator & judge · 19 Sep 2026",
+    blurb:
+      "Youth hackathon with Volonteurope. Facilitated and judged.",
+    facts: ["Facilitator + judge"],
+  },
+  {
+    id: "hk-tectonic",
+    label: "Tectonic Brussels",
+    type: "event",
+    pillars: { events: 1, tech: 0.8, education: 0.4 },
+    era: "past",
+    kicker: "Facilitated · 30 Sep 2026",
+    blurb:
+      "Tectonic 2026, Brussels Hub preselection, at BeCentral.",
+    facts: ["Facilitated", "BeCentral"],
+  },
+  {
+    id: "hk-eu-agri",
+    label: "EU Agri-Hackathon",
+    type: "event",
+    pillars: { education: 0.7, events: 0.7, tech: 0.9 },
+    era: "past",
+    showLabel: true,
+    kicker: "Facilitator · 16–18 Oct 2026",
+    blurb:
+      "The first online EU Agri-Hackathon, run by the European Commission's DG AGRI with ICF Next. One of three facilitators.",
+    facts: ["Up to 30 teams", "1 of 3 facilitators", "Winners at EU Agri-Food Days, 9 Dec"],
+  },
+  {
+    id: "hk-google-bspho",
+    label: "Solve with Google · BSPHO",
+    type: "event",
+    pillars: { tech: 1, events: 0.6, education: 0.3 },
+    era: "past",
+    kicker: "Competed · 29 Oct 2026 · Ghent",
+    blurb:
+      "Google Hack for Good, edition 3, for the Belgian Society of Paediatric Haemato-Oncology. Built with Jerome Leclanche and Alexandre De Groodt.",
+    facts: ["Trial protocols → searchable consult sheets", "EN / FR / NL"],
+    url: "https://ingram.tech/posts/we-built-a-fancy-pdf-viewer",
+  },
+  {
+    id: "hk-rails",
+    label: "Hack the Rails",
+    type: "event",
+    pillars: { events: 1, tech: 0.8, education: 0.4 },
+    prominence: 1.2,
+    showLabel: true,
+    kicker: "Next · 21 Nov 2026",
+    blurb:
+      "Night-train hackathon with European Sleeper and the City of Brussels.",
+    facts: ["Confirmed", "European Sleeper · City of Brussels · HackathonHub"],
+    url: "https://luma.com/f0eeirec",
+  },
+  {
+    id: "hk-minecraft",
+    label: "Minecraft Family Hack",
+    type: "event",
+    pillars: { education: 1, events: 0.6, tech: 0.5 },
+    showLabel: true,
+    kicker: "19 Dec 2026 · ages 9+",
+    blurb:
+      "A family build day in Minecraft, with Toon & Otto Vanagt, Discord, Maker Camp and an official Minecraft Education partner.",
+    facts: ["Confirmed"],
+  },
+  {
+    id: "hk-edge-cv",
+    label: "Edge Computer Vision Hackathon",
+    type: "event",
+    pillars: { tech: 1, events: 0.6, education: 0.3 },
+    kicker: "Dec 2026 · tentative",
+    blurb:
+      "Computer vision on the edge, with AI-Blox.",
+    facts: ["Tentative"],
+  },
+  {
+    id: "hk-open-source",
+    label: "Open Source Hackathon",
+    type: "event",
+    pillars: { events: 1, tech: 0.8, education: 0.4 },
+    kicker: "Jan 2027 · announced",
+    blurb:
+      "With Open Source Village.",
+    facts: ["Announced"],
+  },
+  {
+    id: "hk-eventtech",
+    label: "Event Tech Hackathon",
+    type: "event",
+    pillars: { events: 1, tech: 0.8, education: 0.4 },
+    kicker: "Feb 2027 · tentative",
+    blurb:
+      "Building the tools events run on, with exhibitly.ai and SpeakSoon.",
+    facts: ["Tentative"],
+  },
+  {
+    id: "hk-batteries",
+    label: "Batteries Hackathon",
+    type: "event",
+    pillars: { tech: 1, events: 0.6, education: 0.3 },
+    kicker: "May 2027 · tentative",
+    blurb:
+      "Batteries and energy storage, with the European Innovation Council, the European Space Agency and a French cyclotron.",
+    facts: ["Tentative", "EIC · ESA"],
   },
 
   // ── Partners / sponsors (all one level) ─────────────────────────────────
@@ -402,6 +622,199 @@ export const nodes: GraphNode[] = [
   { id: "the-beacon", label: "The Beacon Antwerp", type: "partner", kicker: "In-kind partner · innovative location" },
   { id: "young-engineers", label: "Young Engineers Liège", type: "partner", kicker: "Partner" },
   { id: "nerdlab", label: "Nerdlab", type: "partner", kicker: "Partner" },
+
+  // ── More ventures & roles (from ~/snippets/cedlocal) ────────────────────
+  {
+    id: "artcrecon",
+    label: "ArtCreCon",
+    type: "venture",
+    pillars: { events: 0.8, education: 0.6 },
+    prominence: 0.9,
+    kicker: "Co-founder · with Dritan Kiçi",
+    blurb:
+      "Art and Creativity Consortium: international by nature, plurilingual, rooted in Brussels. “Unapologetically open to 2000 languages, unapologetically bruxellois too.” The Brussels Review is a founding member.",
+    facts: ["Founded Oct 2026", "Founding member: The Brussels Review"],
+  },
+  {
+    id: "matrics-solve",
+    label: "Matrics Solve",
+    type: "venture",
+    pillars: { events: 0.8, tech: 0.4 },
+    prominence: 0.8,
+    kicker: "Owner · first company",
+    blurb:
+      "Cédric's first company. Born in July 2024 from the pivot of Matrics App: from an app about events to event services and founding event brands. Today it's his consulting vehicle.",
+    facts: ["SRL/BV · since 2024", "Pivot: events app → event services"],
+  },
+  {
+    id: "matrics-app",
+    label: "Matrics App",
+    type: "venture",
+    pillars: { tech: 1, events: 0.6 },
+    prominence: 0.7,
+    era: "past",
+    kicker: "Founder · 2023–2024",
+    blurb:
+      "An event-discovery app, incubated at WeAreFounders (Google & BeAngels-backed, 25% selection). It never hit the market: the defining First Attempt In Learning. Speed beats polish, which is why Cédric now ships and wins hackathons solo.",
+    facts: ["WeAreFounders incubator", "Attempt #1 at event discovery", "Lesson: speed beats polish"],
+  },
+  {
+    id: "hackathonhub",
+    label: "Hackathon Hub",
+    type: "format",
+    pillars: { events: 1, tech: 0.7, education: 0.4 },
+    kicker: "Ambassador · Belgium / Brussels",
+    blurb:
+      "hackathonhub.eu: an EU-wide platform and ~100-person ambassador team, focused only on hackathons. Cédric is its most active ambassador for Belgium. His third run at the event-discovery thesis, after Matrics App and belgiumtech.events.",
+    facts: ["Ambassador since 2026", "~100 ambassadors across Europe", "Event discovery, attempt #3"],
+    url: "https://hackathonhub.eu",
+  },
+  {
+    id: "content",
+    label: "Content",
+    type: "thread",
+    pillars: { education: 0.7, events: 0.5, tech: 0.3 },
+    kicker: "Cross-cutting thread · LinkedIn",
+    blurb: "Building authority across every venture at once, from lived experience: 200+ events a year turned into posts.",
+    facts: ["LinkedIn · 3× a week target", "Every post routed to one venture"],
+    url: "https://www.linkedin.com/in/cedric-sounard/",
+  },
+
+  // ── Builds — things Cédric shipped (one per ~/snippets folder) ──────────
+  {
+    id: "b-venture-map",
+    label: "This venture map",
+    type: "build",
+    pillars: { tech: 1, education: 0.3 },
+    kicker: "Build · 3D graph",
+    blurb: "The map you're looking at: every node and link rebuilt from the folders Cédric works in.",
+    url: "https://cedric.sounard.net/",
+  },
+  {
+    id: "b-mindmap-canvas",
+    label: "Mindmap Canvas",
+    type: "build",
+    pillars: { tech: 1, education: 0.4 },
+    kicker: "Build · generate your own map",
+    blurb: "A blank-canvas fork of this map: paste what you do, and Claude turns it into your own glowing 3D graph.",
+  },
+  {
+    id: "b-playbook",
+    label: "The Hackathon Playbook",
+    type: "build",
+    pillars: { education: 1, events: 0.8, tech: 0.4 },
+    showLabel: true,
+    kicker: "Build · open source",
+    blurb:
+      "The distilled operating system for running exceptional hackathons, built from 35+ playbooks, retrospectives and research papers. Open source and participatory: the doctrine belongs to Europe's hackathon organisers.",
+    facts: ["35+ playbooks distilled", "Open source"],
+    url: "https://befounders.eu",
+  },
+  {
+    id: "b-agent-pack",
+    label: "Hackathon Organiser Agent Pack",
+    type: "build",
+    pillars: { education: 0.8, events: 0.8, tech: 1 },
+    kicker: "Build · Claude Code skill pack",
+    blurb:
+      "Bachelor student to world-class organiser in one prompt and 10 minutes: an agent that generates the whole event as files (timeline, budget, sponsor prospectus, run of show, judging plan).",
+  },
+  {
+    id: "b-kith",
+    label: "Kith",
+    type: "build",
+    pillars: { tech: 1, events: 0.6 },
+    kicker: "Build · the agentic Meetup",
+    blurb:
+      "Not social media: no feed, no likes. Describe your week in plain language and an agent returns five concrete things to join or create. MCP-first: the product is an MCP server, the app is Claude talking to it.",
+  },
+  {
+    id: "b-tandem",
+    label: "Tandem",
+    type: "build",
+    pillars: { education: 0.8, tech: 1 },
+    kicker: "Build · AI deliberation engine",
+    blurb:
+      "“You generate a thousand signals a day; your democracy hears one per year.” An assembly companion that takes a room of opposed citizens to an actionable local plan, while making every participant feel heard.",
+  },
+  {
+    id: "b-lanyards",
+    label: "Lanyards & Dragons",
+    type: "build",
+    pillars: { tech: 1, events: 0.7 },
+    kicker: "Build · game",
+    blurb:
+      "A platformer roguelike where going to tech conferences is reskinned as medieval fantasy. Clear a level, earn a lanyard. Born at the Megathon as lanyards.lol.",
+  },
+  {
+    id: "b-abyssal",
+    label: "Abyssal Descent",
+    type: "build",
+    pillars: { tech: 1 },
+    kicker: "Build · game experiment",
+    blurb: "A browser game, from 2D to a 3D signed-distance-field labyrinth across five iterations.",
+  },
+  {
+    id: "b-hrmano-site",
+    label: "hrmano.com",
+    type: "build",
+    pillars: { tech: 1 },
+    kicker: "Build · landing & early access",
+    blurb: "The bilingual FR/EN landing and early-access page for HRMano.",
+    url: "https://hrmano.com",
+  },
+  {
+    id: "b-bali",
+    label: "Bali field mission",
+    type: "build",
+    pillars: { education: 0.6, tech: 0.6 },
+    kicker: "Build · field guide",
+    blurb: "Ridge-to-reef field itinerary and media guide for U-Regenerative's Bali mission, with the Livingseas Foundation.",
+    url: "https://sounard.github.io/u-regenerative-bali/",
+  },
+  {
+    id: "b-bspho-viewer",
+    label: "Protocol consult-sheet viewer",
+    type: "build",
+    pillars: { tech: 1, education: 0.4 },
+    kicker: "Build · with Jerome & Alexandre",
+    blurb: "A one-day viewer turning paediatric oncology trial protocols into searchable consult sheets, in English, French and Dutch.",
+    url: "https://ingram.tech/posts/we-built-a-fancy-pdf-viewer",
+  },
+  {
+    id: "b-hackathons-page",
+    label: "Hackathon timeline",
+    type: "build",
+    pillars: { events: 1, tech: 0.5 },
+    kicker: "Build · the record",
+    blurb: "Every hackathon on one line: twenty hackathons, three wins, more on the way.",
+    url: "https://cedric.sounard.net/hackathons/",
+  },
+
+  // ── Hackathon partners (from the editions) ──────────────────────────────
+  { id: "european-sleeper", label: "European Sleeper", type: "partner", kicker: "Lead partner · Hack the Rails" },
+  { id: "e-invoice", label: "e-invoice.be", type: "partner", kicker: "Partner · Agentic Commerce" },
+  { id: "europe-medialab", label: "Europe MédiaLab", type: "partner", kicker: "Partner · European Media" },
+  { id: "eurosky", label: "Eurosky", type: "partner", kicker: "Partner · European Media" },
+  { id: "dg-agri", label: "European Commission · DG AGRI", type: "client", kicker: "EU Agri-Hackathon" },
+  { id: "icf-next", label: "ICF Next", type: "partner", kicker: "EU Agri-Hackathon" },
+  { id: "volonteurope", label: "Volonteurope", type: "partner", kicker: "Partner" },
+  { id: "becentral", label: "BeCentral", type: "partner", kicker: "Venue · Tectonic Brussels" },
+  { id: "ai-blox", label: "AI-Blox", type: "partner", kicker: "Partner · tentative" },
+  { id: "exhibitly", label: "exhibitly.ai", type: "partner", kicker: "Partner · tentative" },
+  { id: "speaksoon", label: "SpeakSoon", type: "partner", kicker: "Partner · tentative" },
+  { id: "eic", label: "EIC", type: "partner", kicker: "European Innovation Council · tentative" },
+  { id: "esa", label: "ESA", type: "partner", kicker: "European Space Agency · tentative" },
+  { id: "minecraft-edu", label: "Minecraft Education partner", type: "partner", kicker: "Minecraft Family Hack" },
+  { id: "the-brussels-review", label: "The Brussels Review", type: "partner", kicker: "Founding member · ArtCreCon", url: "https://thebrusselsreview.com" },
+  { id: "livingseas", label: "Livingseas Foundation", type: "partner", kicker: "Partner · Bali mission" },
+  { id: "wearefounders", label: "WeAreFounders", type: "partner", kicker: "Incubator · Matrics App" },
+  { id: "make", label: "Make", type: "partner", kicker: "Make Hackathon" },
+
+  // ── More people ─────────────────────────────────────────────────────────
+  { id: "p-dritan-kici", label: "Dritan Kiçi", type: "collaborator", kicker: "ArtCreCon co-founder · The Brussels Review" },
+  { id: "p-alexandre-de-groodt", label: "Alexandre De Groodt", type: "collaborator", kicker: "Built the BSPHO viewer" },
+  { id: "p-vanagt", label: "Toon & Otto Vanagt", type: "collaborator", kicker: "Minecraft Family Hack" },
 
   // ── Seven Events clients & community ────────────────────────────────────
   { id: "vcs-corporates", label: "VCs & corporates", type: "client", kicker: "Clients — forums & summits" },
@@ -531,7 +944,6 @@ export const nodes: GraphNode[] = [
   { id: "p-pierre-elie", label: "Pierre-Elie Mathijs", type: "collaborator", kicker: "Seven Capital & Seven Camp" },
   { id: "p-andriy", label: "Andriy Kolodyuk", type: "collaborator", kicker: "Seven Capital & Seven Camp — managing partner" },
   // Triscale cofounder
-  { id: "p-thibault", label: "Thibault Le Meur", type: "collaborator", kicker: "Triscale — cofounder" },
   // AI in Defence Summit speakers
   { id: "p-theo-francken", label: "Theo Francken", type: "collaborator", kicker: "Belgian Defence Minister · Summit speaker" },
   { id: "p-kubilius", label: "Andrius Kubilius", type: "collaborator", kicker: "EU Defence Commissioner · Summit speaker" },
@@ -564,24 +976,55 @@ export const links: GraphLink[] = [
   { source: "seven-events", target: "agoria", kind: "community", label: "Community member" },
   { source: "agoria", target: "ai-defence-summit", kind: "partner", label: "Partner" },
 
-  // Hackathons → the editions
-  { source: "hackathons", target: "hk-stripe", kind: "event" },
+  // Hackathons → every edition, in date order
+  { source: "hackathons", target: "hk-aws-gameday", kind: "event" },
+  { source: "hackathons", target: "hk-ai-outcome", kind: "event" },
   { source: "hackathons", target: "hk-kids", kind: "event" },
+  { source: "hackathons", target: "hk-agentic-payments", kind: "event" },
   { source: "hackathons", target: "hk-media", kind: "event" },
+  { source: "hackathons", target: "hk-polderr", kind: "event" },
+  { source: "hackathons", target: "hk-edth", kind: "event" },
+  { source: "hackathons", target: "hk-stripe-bxl", kind: "event" },
+  { source: "hackathons", target: "hk-makers-exchange", kind: "event" },
+  { source: "hackathons", target: "hk-wintercircus", kind: "event" },
+  { source: "hackathons", target: "hk-make", kind: "event" },
   { source: "hackathons", target: "hk-energy", kind: "event" },
-  { source: "hackathons", target: "hk-collibra", kind: "event" },
+  { source: "hackathons", target: "hk-megathon", kind: "event" },
+  { source: "hackathons", target: "hk-agentic-commerce", kind: "event" },
+  { source: "hackathons", target: "hk-volonteurope", kind: "event" },
+  { source: "hackathons", target: "hk-tectonic", kind: "event" },
+  { source: "hackathons", target: "hk-eu-agri", kind: "event" },
+  { source: "hackathons", target: "hk-google-bspho", kind: "event" },
+  { source: "hackathons", target: "hk-rails", kind: "event" },
+  { source: "hackathons", target: "hk-minecraft", kind: "event" },
+  { source: "hackathons", target: "hk-edge-cv", kind: "event" },
+  { source: "hackathons", target: "hk-open-source", kind: "event" },
+  { source: "hackathons", target: "hk-eventtech", kind: "event" },
+  { source: "hackathons", target: "hk-batteries", kind: "event" },
+
+  // Where the hackathons happen, and what they feed
   { source: "hackathons", target: "commons-hub", kind: "venue", label: "Usually co-hosted at" },
   { source: "hackathons", target: "founder-community", kind: "pipeline", label: "Feeds the community" },
+  { source: "hackathons", target: "hackathonhub", kind: "community", label: "Ambassador" },
+  { source: "hackathons", target: "b-hackathons-page", kind: "flagship", label: "The record" },
+  { source: "hackathons", target: "b-playbook", kind: "pipeline", label: "Lessons → playbook" },
+  { source: "b-playbook", target: "b-agent-pack", kind: "pipeline", label: "Doctrine → agent" },
+  { source: "hk-makers-exchange", target: "b-playbook", kind: "pipeline", label: "Organisers → playbook" },
 
-  // Stripe Hackathons — both venues
-  { source: "hk-stripe", target: "commons-hub", kind: "venue" },
-  { source: "hk-stripe", target: "seven-events", kind: "event" },
-  { source: "hk-stripe", target: "stripe", kind: "partner" },
-  { source: "hk-stripe", target: "founder-community", kind: "community" },
+  // Stripe editions
+  { source: "hk-agentic-payments", target: "stripe", kind: "partner" },
+  { source: "hk-agentic-payments", target: "stripe-community-builder", kind: "event" },
+  { source: "hk-stripe-bxl", target: "stripe", kind: "partner" },
+  { source: "hk-stripe-bxl", target: "commons-hub", kind: "venue" },
+  { source: "hk-stripe-bxl", target: "stripe-community-builder", kind: "event" },
+  { source: "hk-agentic-commerce", target: "seven-events", kind: "event" },
+  { source: "hk-agentic-commerce", target: "stripe", kind: "partner" },
+  { source: "hk-agentic-commerce", target: "collibra", kind: "partner", label: "Host venue" },
+  { source: "hk-agentic-commerce", target: "e-invoice", kind: "partner", reveal: "hk-agentic-commerce" },
+  { source: "hk-agentic-commerce", target: "stripe-community-builder", kind: "event" },
 
-  // Kids AI Coding — venue + partners, all hidden until the node is hovered
+  // Kids AI Coding — venue + partners, hidden until hovered
   { source: "north-star", target: "hk-kids", kind: "flagship", label: "Co-led / operated" },
-  { source: "hk-kids", target: "commons-hub", kind: "venue", reveal: "hk-kids" },
   { source: "hk-kids", target: "lovable", kind: "partner", reveal: "hk-kids" },
   { source: "hk-kids", target: "rosebud", kind: "partner", reveal: "hk-kids" },
   { source: "hk-kids", target: "huggingface", kind: "partner", reveal: "hk-kids" },
@@ -592,22 +1035,79 @@ export const links: GraphLink[] = [
   { source: "hk-kids", target: "the-beacon", kind: "partner", reveal: "hk-kids" },
   { source: "hk-kids", target: "young-engineers", kind: "partner", reveal: "hk-kids" },
   { source: "hk-kids", target: "nerdlab", kind: "partner", reveal: "hk-kids" },
+  { source: "hk-kids", target: "commons-hub", kind: "venue", reveal: "hk-kids" },
 
-  // Decentralised European Media — Commons Hub + civic
+  // Civic-tech editions
   { source: "hk-media", target: "commons-hub", kind: "venue" },
   { source: "hk-media", target: "civic", kind: "track-record", label: "Civic mission" },
+  { source: "hk-media", target: "europe-medialab", kind: "partner" },
+  { source: "hk-media", target: "eurosky", kind: "partner", reveal: "hk-media" },
+  { source: "hk-eu-agri", target: "dg-agri", kind: "client", label: "Run by" },
+  { source: "hk-eu-agri", target: "icf-next", kind: "partner", reveal: "hk-eu-agri" },
+  { source: "hk-eu-agri", target: "civic", kind: "track-record", label: "Public-sector" },
 
-  // Energy Data Visualisation — Commons Hub venue, City of Brussels main sponsor, partners
+  // Energy Data Visualisation
   { source: "hk-energy", target: "commons-hub", kind: "venue" },
   { source: "hk-energy", target: "bxl-ville", kind: "sponsor", label: "Main sponsor" },
-  { source: "hk-energy", target: "collibra", kind: "partner" },
-  { source: "hk-energy", target: "lovable", kind: "partner" },
-  { source: "hk-energy", target: "sibelga", kind: "partner" },
+  { source: "hk-energy", target: "collibra", kind: "partner", reveal: "hk-energy" },
+  { source: "hk-energy", target: "sibelga", kind: "partner", reveal: "hk-energy" },
+  { source: "hk-energy", target: "seven-events", kind: "event" },
 
-  // Agentic Commerce & E-invoicing — Seven Events only (NOT Commons Hub)
-  { source: "hk-collibra", target: "seven-events", kind: "event" },
-  { source: "hk-collibra", target: "collibra", kind: "partner" },
-  { source: "hk-collibra", target: "stripe", kind: "partner" },
+  // Competed — and what came out of it
+  { source: "hk-wintercircus", target: "wintercircus", kind: "venue" },
+  { source: "hk-make", target: "make", kind: "partner", reveal: "hk-make" },
+  { source: "hk-make", target: "hrmano", kind: "pipeline", label: "Shipped an HRMano funnel" },
+  { source: "hk-megathon", target: "b-lanyards", kind: "pipeline", label: "Born here" },
+  { source: "hk-google-bspho", target: "b-bspho-viewer", kind: "pipeline", label: "Built here" },
+  { source: "hk-google-bspho", target: "wintercircus", kind: "venue", reveal: "hk-google-bspho" },
+  { source: "p-jerome", target: "b-bspho-viewer", kind: "team", label: "Co-built" },
+  { source: "p-alexandre-de-groodt", target: "b-bspho-viewer", kind: "team", label: "Co-built" },
+  { source: "b-bspho-viewer", target: "ingram", kind: "partner", label: "Published on ingram.tech" },
+
+  // Facilitated
+  { source: "hk-volonteurope", target: "volonteurope", kind: "partner" },
+  { source: "hk-makers-exchange", target: "volonteurope", kind: "partner", reveal: "hk-makers-exchange" },
+  { source: "hk-tectonic", target: "becentral", kind: "venue" },
+
+  // Upcoming — with Seven Events
+  { source: "hk-rails", target: "seven-events", kind: "event" },
+  { source: "hk-rails", target: "european-sleeper", kind: "sponsor", label: "Lead partner" },
+  { source: "hk-rails", target: "bxl-ville", kind: "partner" },
+  { source: "hk-rails", target: "hackathonhub", kind: "partner" },
+  { source: "hk-minecraft", target: "p-vanagt", kind: "team", label: "Partners", reveal: "hk-minecraft" },
+  { source: "hk-minecraft", target: "minecraft-edu", kind: "partner", reveal: "hk-minecraft" },
+  { source: "hk-edge-cv", target: "ai-blox", kind: "partner", reveal: "hk-edge-cv" },
+  { source: "hk-open-source", target: "open-source-village", kind: "partner" },
+  { source: "hk-eventtech", target: "exhibitly", kind: "partner", reveal: "hk-eventtech" },
+  { source: "hk-eventtech", target: "speaksoon", kind: "partner", reveal: "hk-eventtech" },
+  { source: "hk-batteries", target: "eic", kind: "partner", reveal: "hk-batteries" },
+  { source: "hk-batteries", target: "esa", kind: "partner", reveal: "hk-batteries" },
+
+  // New ventures, the event-discovery thread, builds
+  { source: "cedric", target: "artcrecon", kind: "role", label: "Co-founder" },
+  { source: "p-dritan-kici", target: "artcrecon", kind: "team", label: "Co-founder" },
+  { source: "the-brussels-review", target: "artcrecon", kind: "partner", label: "Founding member" },
+  { source: "p-dritan-kici", target: "the-brussels-review", kind: "team", label: "Founder", reveal: "artcrecon" },
+  { source: "cedric", target: "matrics-solve", kind: "role", label: "Owner" },
+  { source: "matrics-app", target: "matrics-solve", kind: "pipeline", label: "Pivot, July 2024" },
+  { source: "wearefounders", target: "matrics-app", kind: "partner", label: "Incubator" },
+  { source: "matrics-app", target: "north-star", kind: "pipeline", label: "Event discovery, attempt #2" },
+  { source: "north-star", target: "hackathonhub", kind: "pipeline", label: "Event discovery, attempt #3" },
+  { source: "cedric", target: "hackathonhub", kind: "role", label: "Ambassador · Belgium" },
+  { source: "matrics-solve", target: "seven-events", kind: "client", label: "Invoices project work" },
+  { source: "cedric", target: "content", kind: "role", label: "Voice" },
+  { source: "tech-setup", target: "b-venture-map", kind: "flagship", label: "Built with Claude" },
+  { source: "b-venture-map", target: "b-mindmap-canvas", kind: "pipeline", label: "Forked into" },
+  { source: "tech-setup", target: "b-kith", kind: "event" },
+  { source: "b-kith", target: "founders-running-club", kind: "community", label: "Runs, padel, plans", reveal: "b-kith" },
+  { source: "civic", target: "b-tandem", kind: "flagship", label: "AI for assemblies" },
+  { source: "b-tandem", target: "assemblee-citoyenne", kind: "track-record", label: "Lessons from the room" },
+  { source: "tech-setup", target: "b-lanyards", kind: "event" },
+  { source: "tech-setup", target: "b-abyssal", kind: "event" },
+  { source: "hrmano", target: "b-hrmano-site", kind: "flagship", label: "Landing & waitlist" },
+  { source: "u-regenerative", target: "b-bali", kind: "flagship", label: "Field mission, Aug 2026" },
+  { source: "b-bali", target: "livingseas", kind: "partner" },
+  { source: "b-hackathons-page", target: "b-venture-map", kind: "pipeline", label: "Same site" },
 
   // Stripe Community Builder
   { source: "stripe-community-builder", target: "hackathons", kind: "event" },

@@ -72,9 +72,11 @@ const SIZE: Record<NodeType, number> = {
   initiative: 3.6,
   audience: 5,
   collaborator: 4,
+  build: 3.6,
 };
 
-const LABEL_TYPES: Set<NodeType> = new Set(["person", "venture", "thread", "format", "event", "audience", "initiative"]);
+// Events and builds are many: they only get a permanent label when flagged showLabel.
+const LABEL_TYPES: Set<NodeType> = new Set(["person", "venture", "thread", "format", "audience", "initiative"]);
 
 const TYPE_LABEL: Record<NodeType, string> = {
   person: "",
@@ -87,6 +89,7 @@ const TYPE_LABEL: Record<NodeType, string> = {
   initiative: "Civic track record",
   audience: "Community",
   collaborator: "Person",
+  build: "Build",
 };
 
 function geometryFor(type: NodeType, r: number): THREE.BufferGeometry {
@@ -111,6 +114,8 @@ function geometryFor(type: NodeType, r: number): THREE.BufferGeometry {
       return new THREE.SphereGeometry(r, 28, 28);
     case "collaborator":
       return new THREE.IcosahedronGeometry(r, 0); // echoes Cédric's shape — "people like me"
+    case "build":
+      return new THREE.BoxGeometry(r * 1.2, r * 1.2, r * 1.2); // a shipped thing: a block
   }
 }
 
